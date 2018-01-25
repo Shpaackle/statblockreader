@@ -1,0 +1,37 @@
+EZREN
+XP 1
+Male old human wizard (exploiter wizard) 6
+NG medium humanoid (human)
+Init +1; Senses Perception +1
+DEFENSE
+AC 13, touch 12, flat-footed 12 (+1 deflection, +1 Dex, +1 natural)
+hp 44 (6d6+18)	
+Fort +5, Ref +4, Will +7
+OFFENSE
+Speed 30 ft.
+Melee dagger +3 (1d4/19-20)
+Ranged light crossbow +4 (1d8/19-20) or dagger +4 (1d4/19-20)
+Space 5 ft.; Reach 5 ft.
+Special Attacks arcane exploits 6/day
+Wizard Spells prepared (CL 6th; Concentration +12/+16 casting defensively)
+3rd (3/day)—dispel magic, force punch, lightning bolt (DC 19)
+2nd (5/day)—aggressive thundercloud (DC 18)(2), levitate, telekinetic volley (2)
+1st (5/day)—magic missile (2), mage armor, shocking grasp (2)
+0 (at will)—detect magic, light, mage hand, read magic
+STATISTICS
+Str 10, Dex 12, Con 14, Int 22, Wis 12, Cha 9
+Base Atk +3; CMB +3, CMD 15
+Feats Scribe Scroll, Combat Casting, Spell Penetration, Dispel Focus, Creative Destruction
+Skills Knowledge (arcana) +15, Knowledge (dungeoneering) +15, Knowledge (geography) +15, Knowledge (history) +15, Knowledge (local) +15, Knowledge (nature) +15, Knowledge (planes) +15, Spellcraft +15
+Traits Gifted Adept (magic missile), Stabbing Spells
+Languages Abyssal, Celestial, Common, Draconic, Dwarven, Elven, Infernal
+SQ arcane bond 1/day
+Combat Gear wand of shield, potion of cure moderate wounds (2), scroll of arcane sight (2), scroll of see invisibility (2), scroll of comprehend languages (2), scroll of identify (2), potion of cure light wounds (6); Other Gear pearl of power [2nd-level], headband of vast intellect +2, amulet of natural armor +1, ring of protection +1, cloak of resistance +1, pearl of power [1st-level], mwk light crossbow w/20 bolts, mwk dagger, magnifying glass, 	wizard’s kit, spring-loaded wrist sheath (2), merchant’s scale, scroll case (2), bandolier (2), scholar’s outfit, spellbook containing prepared spells plus all 0-level spells, comprehend languages, detect secret doors, feather fall, 	identify, magic weapon, shield, arcane sight, see invisibility
+SPECIAL ABILITIES
+Dual Talent +2 to two ability scores (ARG 72)
+Favored Class +1 hit point/level (APG 8)
+Arcane Reservoir (Su) Pool of arcane energy can hold a maximum of 9 points (ACG 133)
+Spend 1 point to gain +1 to CL or DC when casting a spell
+Exploiter Exploit (ACG 133)
+Force Strike (Su) Spend 1 point to deal 1d4+7 force damage to a target within 30 ft as a standard action (ACG 11)
+Counterspell (Su) Spend 1 point and a higher level spell slot to make a dispel check as an immediate action (ACG 11)
