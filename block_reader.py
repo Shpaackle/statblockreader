@@ -40,8 +40,10 @@ current = "start"
 
 # iterate through every line in statblock
 for line in lines:
-    # if line is one of the keys, change which section to assign line to
-    # otherwise, add line to current section
+    """ 
+    if line is one of the keys, change which section to assign line to
+    otherwise, add line to current section
+    """
     if line.strip() in sections.keys():
         current = line.strip()
     else:
@@ -50,8 +52,10 @@ for line in lines:
 # assign first line to key "name"
 creature = {"name": sections["START"][0]}
 # TODO use regex to grab CR from first line
-# check for CR in name line
-# if found, assign to "cr" key
+"""
+    check for CR in name line
+    if found, assign to "cr" key
+"""
 if "CR" in creature["name"]:
     temp = creature["name"].split('CR')
     creature["name"] = temp[0].strip().title()
@@ -71,9 +75,11 @@ temp = sections["START"][2].split()
 for index in range(len(temp)):
     # strip word and convert to lowercase
     item = temp[index].strip().lower()
-    # check if class section has been reached
-    # join previous word with the remaining words in list
-    # assign this to the "super_race" and break from loop
+    """
+    check if class section has been reached
+    join previous word with the remaining words in list
+    assign this to the "super_race" and break from loop
+    """
     if item in classes:
         creature["super_race"] = " ".join(temp[index-1:])
         break
@@ -86,8 +92,10 @@ for index in range(len(temp)):
 
 # split off first word in "super_race"
 temp = creature["super_race"].split(" ", maxsplit=1)
+"""
 # if word is in races list
 # assign this word to "race" key, everything else in "classes"
+"""
 if temp[0].lower() in races:
     creature["race"] = temp[0]
     creature["classes"] = temp[1]
@@ -99,30 +107,48 @@ if "(" or "/" in temp:
     # multi-class pass
     logging.debug("Need to process classes more")
 
-
+# split alignment/size/type line
 temp = sections["START"][3].split()
+# assign first item to alignment
 creature["alignment"] = temp[0]
+# assign second item to size
 creature["size"] = temp[1]
+# assign third item to type
 creature["type"] = temp[2]
+# check for subtype and assign if exists
 if '(' in temp[-1]:
     length = len(temp[-1]) - 1
     creature["subtype"] = temp[-1][1:length]
 
+# split initiative/senses line by ';' only once
 temp = sections["START"][4].split(';', 1)
+# split first item and assign last item in list to "init" key
 creature["init"] = temp[0].split()[-1]
+# split next item and assign last item in list to "senses" key
 creature["senses"] = temp[1].strip().split(' ', 1)[-1]
+# split and assign last item (should be +/- and integer) in list to "perception"
 creature["perception"] = temp[1].split()[-1].strip()
 
 # DEFENSE
+
+# iterate through lines in "DEFEnSE" section
 for line in sections["DEFENSE"]:
+    # check first part of line
     if line[:2] == "AC":
+        # assign line to "ac" key if first two letters are "AC"
         creature["ac"] = line.strip()
     elif line[:2].lower() == "hp":
+         # assign line to "hp" key if first two letters are "hp"
         creature["hp"] = line.strip()
     elif "fort" in line.lower():
+        # TODO increase sensitivity
+        # split line by ';' if "fort" found in line
         semi = line.split(';')
+        # iterate through items in list by index
         for index in range(len(semi)):
+            # check index number
             if index == 0:
+                # 
                 saves = semi[index].split(',')
                 for save in saves:
                     if save.split()[0].lower() == "fort":
@@ -139,7 +165,7 @@ for line in sections["DEFENSE"]:
         creature["defensive_abilities"] = line.strip().split(' ', 2)[2]
 
 # OFFENSE
-#for line in sections["OFFENSE"]:
+
 while len(sections["OFFENSE"]) > 0:
     line = sections["OFFENSE"].pop(0).strip()
     test = line.split()
