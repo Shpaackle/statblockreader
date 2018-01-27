@@ -1,7 +1,7 @@
-import os
-import json
+"""import os
 import re
-import pprint
+import pprint"""
+import json
 import logging
 
 # Setup logging
@@ -15,7 +15,7 @@ classes = ["sorcerer", "wizard", "cleric", "fighter",
            "rogue", "bard", "druid", "barbarian", "monk", "alchemist",
            "class"]
 
-# statblocks to load and test features
+# Load different statblocks to test features
 # statblock = open('./data/CustomStatBlock.txt')
 # statblock = open('./data/ezren.txt')
 # statblock = open('./data/acid_terror.txt')
@@ -93,8 +93,8 @@ for index in range(len(temp)):
 # split off first word in "super_race"
 temp = creature["super_race"].split(" ", maxsplit=1)
 """
-# if word is in races list
-# assign this word to "race" key, everything else in "classes"
+# if word is in races list assign this word to "race" key,
+# everything else in "classes"
 """
 if temp[0].lower() in races:
     creature["race"] = temp[0]
@@ -138,7 +138,7 @@ for line in sections["DEFENSE"]:
         # assign line to "ac" key if first two letters are "AC"
         creature["ac"] = line.strip()
     elif line[:2].lower() == "hp":
-         # assign line to "hp" key if first two letters are "hp"
+        # assign line to "hp" key if first two letters are "hp"
         creature["hp"] = line.strip()
     elif "fort" in line.lower():
         # TODO increase sensitivity
@@ -148,8 +148,9 @@ for line in sections["DEFENSE"]:
         for index in range(len(semi)):
             # check index number
             if index == 0:
-                # 
+                # split first item in line by ','
                 saves = semi[index].split(',')
+                # iterate through list and apply to proper key
                 for save in saves:
                     if save.split()[0].lower() == "fort":
                         creature["fort"] = save[5:]
@@ -158,10 +159,13 @@ for line in sections["DEFENSE"]:
                     elif save.split()[0].lower() == "will":
                         creature["will"] = save[5:]
             elif "resist" in semi[index].split()[0].lower():
+                # if statblock has resistances, apply to proper key
                 creature["resist"] = semi[index].strip().split(' ', 1)[1]
             else:
+                # if there are special properties for saves, apply to proper key
                 creature["saves_special"] = semi[index].strip()
     elif "defensive" in line.split()[0].lower():
+        # check for defensive abilities and apply to proper key
         creature["defensive_abilities"] = line.strip().split(' ', 2)[2]
 
 # OFFENSE
@@ -184,7 +188,6 @@ while len(sections["OFFENSE"]) > 0:
                 perday, abils = item.split('—', 1)
                 if "at will" in perday or "/day" in perday:
                     sla[perday] = abils.strip()
-                    #sections["OFFENSE"].pop(0)
                 else:
                     break
         creature["spell-like abilities"] = sla
@@ -194,7 +197,6 @@ while len(sections["OFFENSE"]) > 0:
             if item[0].isdigit():
                 level, names = item.split('—', 1)
                 spells[level] = names.strip()
-                #sections["OFFENSE"].pop(0)
         creature["spells"] = spells
     elif len(sections["OFFENSE"]) == 0:
         temp = line.split(' ')
@@ -251,49 +253,3 @@ while len(sections["STATISTICS"]) > 0:
         creature["other gear"] = other_gear
 
 print(json.dumps(creature))
-
-"""
-for index in range(len(lines)):
-    if index == 0:
-        creature["name"] = lines[index]
-        if "CR" in creature["name"]:
-            temp = creature["name"].split('CR')
-            print(temp)
-            creature["name"] = temp[0].strip()
-            creature["CR"] = temp[1].strip()
-
-flags = {}
-flagkeys = []
-
-for index in range(len(lines)):
-    if index == 0:
-        flags["name"] = lines[index].strip('\n').strip('\t').title()
-    elif index == 1:
-        temp = lines[index].split(" ")
-        flags["gender"] = temp[0]
-        # TODO check if age exists
-        flags["age"] = temp[1]
-        # TODO check if subrace exists
-        flags["subrace"] = temp[2]
-        flags["race"] = temp[3]
-        flags["classes"] = temp[4]
-        # TODO check if archetype exists
-        flags["archetype"] = temp[5]
-        flags["level"] = temp[6].strip('\n')
-    elif index == 2:
-        temp = lines[index].strip('\n').split(" ")
-        flags["alignment"] = temp[0]
-        flags["size"] = temp[1]
-        flags["type"] = temp[2]
-        # TODO check if subtype exists
-        flags["subtype"] = temp[3]
-    elif index == 3:
-        temp = lines[index].strip('\n').split(';')
-        flags["init"] = temp[0]
-        # TODO regex for getting senses and perception
-        temp1 = temp[1].strip().split(' ', 1)
-        flags["senses"] = {"special": temp1[0], "perception": temp1[1]}
-    pass
-
-print(json.dumps(flags))
-"""
