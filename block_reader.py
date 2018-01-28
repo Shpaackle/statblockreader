@@ -36,7 +36,7 @@ sections = {
 }
 
 # variable for current section
-current = "start"
+current = "START"
 
 # iterate through every line in statblock
 for line in lines:
@@ -223,33 +223,36 @@ while len(sections["STATISTICS"]) > 0:
             temp = stat.strip().split()
             creature[temp[0]] = temp[1]
     elif "Base" in line.split()[0]:
-        temp = line.split(';')
+        temp = line.strip().split(';')
         creature["base_attack"] = temp[0].split()[-1]
         creature["cmb"] = temp[1].strip().split(" ", 1)[-1]
         creature["cmd"] = temp[2].strip().split(" ", 1)[-1]
     elif "Feats" in line.split()[0]:
-        temp = line.split(" ", 1)
-        feats = temp[1].split(',')
+        temp = line.strip().split(" ", 1)
+        feats = temp[1].split(', ')
         creature["feats"] = feats
     elif "Skills" in line.split()[0]:
-        temp = line.split(" ", 1)
-        skills = temp[1].split(',')
+        temp = line.strip().split(" ", 1)
+        skills = temp[1].split(', ')
         creature["skills"] = skills
     elif "Languages" in line.split()[0]:
-        temp = line.split(" ", 1)
-        languages = temp[-1].split(',')
+        temp = line.strip().split(" ", 1)
+        languages = temp[-1].split(', ')
         creature["languages"] = languages
     elif "SQ" in line.split()[0]:
-        temp = line.split(" ", 1)
-        SQ = temp[-1].split(',')
+        temp = line.strip().split(" ", 1)
+        SQ = temp[-1].split(', ')
         creature["sq"] = SQ
     elif "Combat" in line.split()[0]:
         temp = line.split(" ", 2)
         gear = temp[-1].split(';')
-        combat_gear = gear[0].split(',')
-        other_temp = gear[1].split(" ", 2)
-        other_gear = other_temp[-1].split(',')
+        combat_gear = gear[0].split(', ')
+        other_temp = gear[1].strip().split(" ", 2)
+        other_gear = other_temp[-1].split(', ')
         creature["combat gear"] = combat_gear
         creature["other gear"] = other_gear
 
 print(json.dumps(creature))
+file_name = creature["name"].strip().split()
+with open("_".join(file_name).lower()+".json","w") as file:
+    json.dump(creature, file)
