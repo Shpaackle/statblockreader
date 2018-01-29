@@ -170,34 +170,63 @@ for line in sections["DEFENSE"]:
 
 # OFFENSE
 
+# iterate through OFFENSE section by removing first line until len is 0
 while len(sections["OFFENSE"]) > 0:
+    # pop first line from 'OFFENSE'
     line = sections["OFFENSE"].pop(0).strip()
+    # split line 
     test = line.split()
+    # if first item is Speed
     if "Speed" in test[0]:
+        # assign to 'speed' key
         creature["speed"] = test[1].strip()
+    # if first item is Melee
     elif "Melee" in test[0]:
+        # assign to 'melee' key
         creature["melee"] = " ".join(test[1:])
+    # if first item is Ranged
     elif "Ranged" in test[0]:
+        # join line after first item and assign to 'ranged' key
         creature["ranged"] = " ".join(test[1:])
+    # join first two items and if this is Special Attack
     elif "Special Attack" in " ".join(test[0:2]):
+        # join line after second item and assign to 'special_attacks' key
         creature["special_attacks"] = " ".join(test[2:])
+    # if Spell-Like in the first three items, begin processing spell-like abilities
     elif "Spell-Like" in test[0:3]:
+        # assign first line of spell-like block to new temporary dictionary under 'type' key
         sla = {"type": line.strip()}
+        # iterate through remaining lines in 'OFFENSE'
         for item in sections["OFFENSE"]:
+            # if item contains double dash 
             if "—" in item:
+                # split by dash, assign first section to perday, second to abils
                 perday, abils = item.split('—', 1)
+                # check if perday contains either 'at will' or '/day'
                 if "at will" in perday or "/day" in perday:
+                    # assign abils to 'perday' key
                     sla[perday] = abils.strip()
                 else:
+                    # log error and break from loop
+                    logging.debug("Couldn't find valid spell-like abilities")
                     break
+        # assign dictionary to 'spell-like abilities' key
         creature["spell-like abilities"] = sla
+    # if 'Spells' in first 3 words of line
     elif "Spells" in test[0:3]:
+        # assign first line of spells to new temporary dictionary under 'type' key
         spells = {"type": line.strip()}
+        # iterate through remaining lines in 'OFFENSE'
         for item in sections["OFFENSE"]:
+            # if first character in line is a digit
             if item[0].isdigit():
+                # split by double dash, assign first section to level, second to names
                 level, names = item.split('—', 1)
+                # assign names to 'level' key
                 spells[level] = names.strip()
+        # assign dictionary to 'spells' key
         creature["spells"] = spells
+    # check for special notes at end of spell section, i.e. Opposition schools, domains, etc
     elif len(sections["OFFENSE"]) == 0:
         temp = line.split(' ')
         if "Opposition" in temp:
