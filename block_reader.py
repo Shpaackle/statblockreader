@@ -25,13 +25,14 @@ REGEX = {
     "alignment_size_type_subtype" : re.compile("(?P<alignment>[A-z]+) (?P<size>[A-z]+) (?P<type>[A-z ]+) \((?P<subtype>[A-z -]+)\)"),
     "init_senses_perception" : re.compile("Init (?P<init>[+-0-9]+); Senses (?P<senses>[A-z0-9 .]);? Perception (?P<perception>[+-0-9]+)"),
     "defense" : re.compile("AC (?P<ac>[0-9]+), touch (?P<touch>[0-9]+), flat-footed (?P<flatfooted>[0-9]+) \((?P<ac_stat0>[0-9+-]+)? ?(?P<ac_component0>[A-z]+)?,? ?(?P<ac_stat1>[0-9+-]+)? ?(?P<ac_component1>[A-z]+)?,? ?(?P<ac_stat2>[0-9+-]+)? ?(?P<ac_component2>[A-z]+)?,? ?(?P<ac_stat3>[0-9+-]+)? ?(?P<ac_component3>[A-z]+)?,? ?(?P<ac_stat4>[0-9+-]+)? ?(?P<ac_component4>[A-z]+)?,? ?(?P<ac_stat5>[0-9+-]+)? ?(?P<ac_component5>[A-z]+)?,? ?(?P<ac_stat6>[0-9+-]+)? ?(?P<ac_component6>[A-z]+)?,? ?(?P<ac_stat7>[0-9+-]+)? ?(?P<ac_component7>[A-z]+)?\)"),
+    "hp" : re.compile("hp (?P<hp>[0-9]+) \((?P<hitdice>[0-9d+]+)\)"),
     "saves" : re.compile("Fort (?P<fortitude>[+-0-9]+), Ref (?P<reflex>[+-0-9]+), Will (?P<will>[+-0-9]+)(; )?(?P<save_modifiers>[^;]+)(; )?(?P<resists>.+)$"),
     "defensive_abilities" : re.compile("Defensive Abilities (?P<defensive_abilities>.+)"),
     "speed" : re.compile("Speed (?P<speed>[0-9]+) ft."),
     "caster_level" : re.compile("(?P<spell_class>[A-z]+) Spells (Known|Prepared) \(CL (?P<caster_level>[0-9]+..); concentration (?P<concentration>[+0-9]+)(, )?(arcane spell failure )?(?P<arcane_spell_failure>[0-9]+)?"),
     "ability_scores" : re.compile("Str (?P<strength>[0-9]+), Dex (?P<dexterity>[0-9]+), Con (?P<constitution>[0-9]+), Int (?P<Intelligence>[0-9]+), Wis (?P<wisdom>[0-9]+), Cha (?P<charisma>[0-9]+)"),
     "attacks" : re.compile("Base Atk (?P<base_attack>[-+0-9]+); CMB (?P<cmb>[-+0-9]+)( \((?P<cmb_extra>[-+0-9]+ [A-z ]+)\))?; CMD (?P<cmd>[0-9]+)( \((?P<cmd_extra>[-+0-9]+ [A-z. ]+)\))?"),
-    "feats_skills_languages" : re.compile(" ?([^,]+)"),
+    "feats_skills_languages" : re.compile(r',\s*(?![^()]*\))'),  #(" ?([^,]+)")
     "melee" : re.compile("Melee (?P<melee>.+)"),
     "ranged" : re.compile("Ranged (?P<ranged>.+)"),
     "special_attacks" : re.compile("Special Attack (?P<special_attacks>.+)"),
@@ -94,6 +95,7 @@ def main():
             # DEFENSE
             for line in sections["DEFENSE"]:
                 creature = match_line("defense", line, creature)
+                creature = match_line("hp", line, creature)
                 creature = match_line("saves", line, creature)
                 creature = match_line("defensive_abilities", line, creature)
 
@@ -146,13 +148,13 @@ def main():
                 match_line("attacks", line, creature)
                 
                 if "Feats" in first:
-                    creature["feats"] = REGEX["feats_skills_languages"].findall(rest)
+                    creature["feats"] = REGEX["feats_skills_languages"].split(rest)
                 elif "Skills" in first:
-                    creature["skills"] = REGEX["feats_skills_languages"].findall(rest)
+                    creature["skills"] = REGEX["feats_skills_languages"].split(rest)
                 elif "Languages" in first:
-                    creature["languages"] = REGEX["feats_skills_languages"].findall(rest)
+                    creature["languages"] = REGEX["feats_skills_languages"].split(rest)
                 elif "SQ" in first:
-                     creature["sq"] = REGEX["feats_skills_languages"].findall(rest)
+                     creature["sq"] = REGEX["feats_skills_languages"].split(rest)
                 elif "Combat" in first:
                     temp = line.split(" ", 2)
                     gear = temp[-1].split(';')
@@ -174,7 +176,8 @@ def main():
             raise
 
 def match_line(regex_name, line, creature):
-    """Returns creature with matches from regex_name included as a new key/value pair"""
+    """Returns creature with matches from regex_name included as a new key/value pair
+    """
     match = REGEX[regex_name].match(line)
     if match:
         for key in match.groupdict():
@@ -182,7 +185,8 @@ def match_line(regex_name, line, creature):
     return creature
 
 def match_re(regex_name, line):
-    """Returns True if line matches regex_name"""
+    """Returns True if line matches regex_name
+    """
     return REGEX[regex_name].match(line)
 
 def match_spells(line):
