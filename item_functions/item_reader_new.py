@@ -3,6 +3,9 @@ import os
 import logging as LOG
 import pprint
 
+LOG.basicConfig(level=LOG.DEBUG, format=" %(asctime)s -  %(levelname)s -  %(message)s")
+LOG.debug("Debug started")
+
 
 def process_weapons(weapon):
     key_dict = {
@@ -251,19 +254,28 @@ def process_items(item):
 
     new_dict = {}
     misc = item.pop("misc", {})
-    sections = item.pop("sections", None)
+    LOG.debug(item["name"] + " " + str(misc))
+    sections = item.get("sections", None)
 
     for k, v in key_dict.items():
-        if misc.get("null", False):
-            if misc["null"].get(k, None):
-                new_dict[v] = misc[k]
-        elif item.get(k, None):
+        if item.get(k, None):
             new_dict[v] = item[k]
+        elif misc.get("null", False):
+            LOG.debug("found null key")
+            if misc["null"].get(k, None):
+                LOG.debug("found key: " + k)
+                LOG.debug("value: " + v)
+                new_dict[v] = misc["null"][k]
+                LOG.debug("new_dict = " + new_dict[v])
 
-    for section in sections:
-        if section.get("name", False) == "Description":
-            new_dict["description"] = section["body"]
-    return "general_items", item
+    # pprint.pprint(new_dict)
+    if sections:
+        for section in sections:
+            if section.get("name", False) == "Description":
+                new_dict["description"] = section["body"]
+        #new_dict["sections"] = sections
+
+    return "general_items", new_dict
 
 
 def sort_item(item):
@@ -295,7 +307,6 @@ def save_files(files):
 
 
 def main():
-    LOG.basicConfig(level=LOG.DEBUG, format=" %(asctime)s -  %(levelname)s -  %(message)s")
     LOG.debug("Start of program")
 
     item_folder = "./item/"
