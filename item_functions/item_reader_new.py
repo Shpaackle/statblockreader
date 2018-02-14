@@ -203,6 +203,9 @@ def process_magic_items(magic_item):
         if section.get("name", False) == "Description":
             new_dict["description"] = section["body"]
 
+    if new_dict.get("construction", False):
+        pass
+
     return "magic_items", new_dict
 
 
