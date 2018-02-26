@@ -71,7 +71,7 @@ def main():
     parse_feats(block["feats"], character)
     parse_equipment([block["combat gear"], block["other gear"]], character)
 
-    check_hp(block, character)
+    check_hp([block["hp"], block["hitdice"]], character)
     check_saves(block, character)
 
 

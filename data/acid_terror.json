@@ -54,6 +54,8 @@
     ],
     "flatfooted": "21",
     "gender": null,
+    "hitdice": "9d6+4d12+48",
+    "hp": "108",
     "languages": [
         "Common",
         "Draconic"

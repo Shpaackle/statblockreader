@@ -96,6 +96,7 @@ def main():
             # DEFENSE
             for line in sections["DEFENSE"]:
                 creature = match_line("defense", line, creature)
+                creature = match_line("hp", line, creature)
                 creature = match_line("saves", line, creature)
                 creature = match_line("defensive_abilities", line, creature)
 

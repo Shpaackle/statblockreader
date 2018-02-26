@@ -61,6 +61,8 @@
     ],
     "flatfooted": "33",
     "gender": null,
+    "hitdice": "2d10+8d6+10d10+100",
+    "hp": "198",
     "languages": [
         "Abyssal",
         "Common",

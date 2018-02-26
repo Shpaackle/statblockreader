@@ -44,6 +44,8 @@
     ],
     "flatfooted": "12",
     "gender": null,
+    "hitdice": "6d6+18",
+    "hp": "44",
     "languages": [
         "Abyssal",
         "Celestial",
