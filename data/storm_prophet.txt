@@ -10,7 +10,7 @@ Fort +9, Ref +5, Will +7; +2 vs. poison, spells, and spell-like abilities; Resis
 Defensive Abilities defensive training (+4 dodge bonus to AC vs. giants)
 OFFENSE
 Speed 20 ft.
-Melee +1 warhammer +11 (1d8+7/×3) or 2 claws +11 (1d6+6) and bite +10 (1d6+9)
+Melee +1 warhammer +11 (1d8+7/x3) or 2 claws +11 (1d6+6) and bite +10 (1d6+9)
 Special Attacks +1 on attack rolls against goblinoid and orc humanoids, dragon bite, claws (2, 1d4+4, magic, 5 rounds/day)
 Sorcerer Spells Known (CL 8th; concentration +10)
 4th (3/day)—greater invisibility

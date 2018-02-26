@@ -1,4 +1,4 @@
-EZREN
+EZREN CR 1
 XP 1
 Male old human wizard (exploiter wizard) 6
 NG medium humanoid (human)

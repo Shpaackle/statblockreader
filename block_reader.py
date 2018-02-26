@@ -40,6 +40,7 @@ REGEX = {
 
 }
 
+
 def main():
     data_folder = './data/'
     # Load different statblocks to test features
@@ -164,10 +165,10 @@ def main():
                     creature["combat gear"] = combat_gear
                     creature["other gear"] = other_gear
 
-            print(json.dumps(creature))
+            # print(json.dumps(creature))
             if "name" in creature:
                 file_name = creature["name"].strip().split()
-                with open("_".join(file_name).lower()+".json", "w") as file:
+                with open(data_folder + "_".join(file_name).lower()+".json", "w") as file:
                     json.dump(creature, file, indent=4, sort_keys=True)
 
         except :
