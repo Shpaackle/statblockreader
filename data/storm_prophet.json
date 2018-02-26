@@ -1,0 +1,153 @@
+{
+    "Intelligence": "10",
+    "ac": "19",
+    "ac_component0": "armor",
+    "ac_component1": "deflection",
+    "ac_component2": "Dex",
+    "ac_component3": "natural",
+    "ac_component4": null,
+    "ac_component5": null,
+    "ac_component6": null,
+    "ac_component7": null,
+    "ac_stat0": "+4",
+    "ac_stat1": "+1",
+    "ac_stat2": "+1",
+    "ac_stat3": "+3",
+    "ac_stat4": null,
+    "ac_stat5": null,
+    "ac_stat6": null,
+    "ac_stat7": null,
+    "age": null,
+    "alignment": "CE",
+    "arcane_spell_failure": null,
+    "base_attack": "+4",
+    "caster_level": "8th",
+    "charisma": "14",
+    "class": "sorcerer",
+    "class2": "dragon disciple",
+    "class3": null,
+    "cmb": "+10",
+    "cmb_extra": null,
+    "cmd": "22",
+    "cmd_extra": "26 vs. bull rush or trip",
+    "combat gear": [
+        "potion of bull's strength",
+        "potion of cure moderate wounds"
+    ],
+    "concentration": "+10",
+    "constitution": "16",
+    "cr": "8",
+    "defensive_abilities": "defensive training (+4 dodge bonus to AC vs. giants)",
+    "dexterity": "12",
+    "feats": [
+        "Arcane Armor Mastery",
+        "Arcane Armor Training",
+        "Combat Casting",
+        "Eschew Materials",
+        "Great Fortitude",
+        "Improved Initiative",
+        "Power Attack",
+        "Weapon Focus (claws)"
+    ],
+    "flatfooted": "18",
+    "gender": null,
+    "languages": [
+        "Common",
+        "Draconic",
+        "Dwarven"
+    ],
+    "level": "7",
+    "level2": "2",
+    "level3": null,
+    "melee": "+1 warhammer +11 (1d8+7/x3) or 2 claws +11 (1d6+6) and bite +10 (1d6+9)",
+    "name": "STORM PROPHET",
+    "other gear": [
+        "+1 warhammer",
+        "amulet of natural armor +1",
+        "cloak of resistance +1",
+        "headband of alluring charisma +2",
+        "ring of protection +1",
+        "138 gp"
+    ],
+    "race": "Dwarf",
+    "size": "Medium",
+    "skills": [
+        "Bluff +7",
+        "Climb +6",
+        "Diplomacy +5",
+        "Intimidate +6",
+        "Knowledge (arcana) +8",
+        "Knowledge (geography) +1",
+        "Knowledge (nature) +1",
+        "Linguistics +1",
+        "Perception +10 (+12 to notice unusual stonework)",
+        "Perform (oratory) +3",
+        "Survival +2"
+    ],
+    "speed": "20",
+    "spell_class": "Sorcerer",
+    "spells": {
+        "0": {
+            "perday": "(at will)",
+            "spells": [
+                "arcane mark",
+                "detect magic",
+                "detect poison",
+                "ghost sound (DC 12)",
+                "light",
+                "mage hand",
+                "message",
+                "resistance"
+            ]
+        },
+        "1": {
+            "perday": "(7/day)",
+            "spells": [
+                "enlarge person (DC 13)",
+                "mage armor",
+                "magic missile",
+                "magic weapon",
+                "shield",
+                "shocking grasp"
+            ]
+        },
+        "2": {
+            "perday": "(7/day)",
+            "spells": [
+                "false life",
+                "protection from arrows",
+                "resist energy",
+                "scorching ray"
+            ]
+        },
+        "3": {
+            "perday": "(5/day)",
+            "spells": [
+                "fly",
+                "heroism",
+                "lightning bolt (DC 15)"
+            ]
+        },
+        "4": {
+            "perday": "(3/day)",
+            "spells": [
+                "greater invisibility"
+            ]
+        }
+    },
+    "sq": [
+        "blood of dragons",
+        "bloodline arcana (electricity spells deal +1 damage per die)"
+    ],
+    "strength": "22",
+    "subtype": "dwarf",
+    "tactics": {
+        "Base Statistics": "Without bull's strength, false life, and mage armor, the dragon disciple's statistics are AC 15, touch 12, flat-footed 14; hp no temporary hit points; Melee +1 warhammer +9 (1d8+5/\u00d73) or bite +8 (1d6+6), 2 claws +9 (1d6+4); Str 18; CMB +8; CMD 20 (24 vs. bull rush or trip); Skills Climb +4.\n",
+        "Before Combat": "The dragon disciple drinks his potion of bull's strength, and casts false life and mage armor.\n",
+        "During Combat": "At range, the dragon disciple casts lighting bolt and scorching ray. If forced into melee, he casts heroism and greater invisibility first.\n"
+    },
+    "touch": "12",
+    "type": "humanoid",
+    "wisdom": "10",
+    "xp": "4,800"
+}

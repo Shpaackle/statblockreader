@@ -11,23 +11,6 @@
     {
         "aura": "no aura (nonmagical)",
         "cl": "&mdash",
-        "name": "Adamantine Battleaxe",
-        "price": "3,010 gp",
-        "sections": [
-            {
-                "body": "<p>This nonmagical axe is made out of adamantine. As a masterwork weapon, it has a +1 enhancement bonus on attack rolls. </p>",
-                "name": "DESCRIPTION",
-                "source": "Core Rulebook",
-                "type": "section"
-            }
-        ],
-        "slot": "none",
-        "source": "Core Rulebook",
-        "weight": "6 lbs."
-    },
-    {
-        "aura": "no aura (nonmagical)",
-        "cl": "&mdash",
         "name": "Adamantine Dagger",
         "price": "3,002 gp",
         "sections": [
