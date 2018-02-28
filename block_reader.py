@@ -23,7 +23,7 @@ REGEX = {
     "xp" : re.compile("XP (?P<xp>[0-9,]+)"),
     "gender_age_class" : re.compile("(?P<gender>Male|Female)? ?(?P<age>old|middle-aged|middle aged|middle-age|middle age|young|venerable|age)? ?(?P<race>[A-z]+) (?P<class>[A-z ]+) (?P<level>[0-9]+)(/?(?P<class2>[A-z ]+) (?P<level2>[0-9]+))?(/?(?P<class3>[A-z ]+) (?P<level3>[0-9]+))?"),
     "alignment_size_type_subtype" : re.compile("(?P<alignment>[A-z]+) (?P<size>[A-z]+) (?P<type>[A-z ]+) \((?P<subtype>[A-z -]+)\)"),
-    "init_senses_perception" : re.compile("Init (?P<init>[0-9+-]+); Senses(?P<senses>[A-z0-9. ]+)?(; )?Perception ("
+    "init_senses_perception" : re.compile("Init (?P<init>[0-9+-]+); Senses(?P<senses>[A-z0-9\"',. ]+)?(; )?Perception ("
                                           "?P<perception>[0-9+-]+)"),
     "defense" : re.compile("AC (?P<ac>[0-9]+), touch (?P<touch>[0-9]+), flat-footed (?P<flatfooted>[0-9]+) \((?P<ac_stat0>[0-9+-]+)? ?(?P<ac_component0>[A-z]+)?,? ?(?P<ac_stat1>[0-9+-]+)? ?(?P<ac_component1>[A-z]+)?,? ?(?P<ac_stat2>[0-9+-]+)? ?(?P<ac_component2>[A-z]+)?,? ?(?P<ac_stat3>[0-9+-]+)? ?(?P<ac_component3>[A-z]+)?,? ?(?P<ac_stat4>[0-9+-]+)? ?(?P<ac_component4>[A-z]+)?,? ?(?P<ac_stat5>[0-9+-]+)? ?(?P<ac_component5>[A-z]+)?,? ?(?P<ac_stat6>[0-9+-]+)? ?(?P<ac_component6>[A-z]+)?,? ?(?P<ac_stat7>[0-9+-]+)? ?(?P<ac_component7>[A-z]+)?\)"),
     "hp" : re.compile("hp (?P<hp>[0-9]+) \((?P<hitdice>[0-9d+]+)\)"),
