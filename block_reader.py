@@ -21,7 +21,7 @@ REGEX = {
     "spells" : re.compile("(?P<level>[0-9])(?:[a-z]{2})? ?(?P<perday>\([A-z0-9 /]+\))?[^A-z0-9]*(?P<spells>[A-z0-9(),'/ ]+)$"),
     "name_and_cr" : re.compile("(?P<name>[A-z0-9 ']+?)(?: CR )?(?P<cr>[0-9]+)?$"),
     "xp" : re.compile("XP (?P<xp>[0-9,]+)"),
-    "gender_age_class" : re.compile("(?P<gender>Male|Female)? ?(?P<age>old|middle-aged|middle aged|middle-age|middle age|young|venerable|age)? ?(?P<race>[A-z]+) (?P<class>[A-z ]+) (?P<level>[0-9]+)(/?(?P<class2>[A-z ]+) (?P<level2>[0-9]+))?(/?(?P<class3>[A-z ]+) (?P<level3>[0-9]+))?"),
+    "gender_age_class" : re.compile("(?P<gender>Male|Female)? ?(?P<age>old|middle-aged|middle aged|middle-age|middle age|young|venerable|age)? ?(?P<race>[A-z]+) (?P<class>[A-z ]+)(?P<subclass>[()A-z ]+)? (?P<level>[0-9]+)(/?(?P<class2>[A-z ]+)(?P<subclass2>[()A-z ]+)? (?P<level2>[0-9]+))?(/?(?P<class3>[A-z ]+)(?P<subclass3>[()A-z ]+)? (?P<level3>[0-9]+))?"),
     "alignment_size_type_subtype" : re.compile("(?P<alignment>[A-z]+) (?P<size>[A-z]+) (?P<type>[A-z ]+) \((?P<subtype>[A-z -]+)\)"),
     "init_senses_perception" : re.compile("Init (?P<init>[0-9+-]+); Senses(?P<senses>[A-z0-9\"',. ]+)?(; )?Perception ("
                                           "?P<perception>[0-9+-]+)"),
