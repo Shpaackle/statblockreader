@@ -1,14 +1,75 @@
 import os
 import json
 import re
-
+import math
 
 from test.db import connect_to_database as connect_db
 
 
-class Bonus:
-    def __init__(self, modifies="AC", bonus_type="armor", bonus_amount="+6"):
+class Attribute:
+    def __init__(self, name, base=-1):
+        self.name = name
+        self.base = base
+        self.bonuses = {}
+        self.total = self.base
+
+    def set_base(self, amount):
+        self.base = amount
+
+    def add_bonus(self, new_bonus):
+        if self.bonuses.get(new_bonus.kind, False):
+            if new_bonus.is_stackable:
+                self.bonuses[new_bonus.kind].append(new_bonus)
+            """
+            for bonus in bonuses.:
+                if bonus.source == new_bonus.source:
+                    same = True
+                    exists = True
+                    break
+                elif (bonus.kind == new_bonus.kind):
+                    if bonus.is_stackable || new_bonus.is_stackable:
+                        bonuses.append()
+                    if bonus.amount > 0:
+                        pass
+                        if new_bonus.amount > bonus.amount:
+                            pass
+                    elif bonus.amount < 0:
+                        pass
+            """
+    def find_bonus_type(self, bonus_type):
         pass
+
+
+class Skill(Attribute):
+    def __init__(self, name, stat, base=-1):
+        self.stat = stat
+        super(Attribute, self).__init__(name, base)
+
+
+class Race:
+    def __init__(self, name, main_type, subtype=None):
+        self.name = name
+        self.main_type = main_type
+        self.subtype = subtype
+
+
+class Bonus:
+    def __init__(self, source="Breastplate", modifies="AC", kind="armor", amount=6, duration=-1, is_stackable=False):
+        self.source = source
+        self.modifies = modifies
+        self.kind = kind
+        try:
+            if (amount[0] == '+') or (amount[0] == '-'):
+                self.amount = int(amount[1:].strip())
+            elif amount[0].isdigit():
+                self.amount = amount.strip()
+        except ValueError:
+            self.amount = amount
+        self.duration = duration
+        self.is_stackable = is_stackable
+
+    def change_amount(self, amount):
+        self.amount = amount
 
 
 class Creature:
@@ -17,6 +78,11 @@ class Creature:
         self.name = self.block["name"]
         self.AC = {}
         self.skills = {}
+        self.race = None
+
+
+    def assign_race(self):
+        pass
 
     def get_classes(self, block):
         return [(block["class"], block["level"]),
@@ -24,15 +90,12 @@ class Creature:
                 (block.get("class3", None), block.get("level3", None))]
 
     def get_ability_mod(self, ability):
-        return int(int((self.block[ability])-11)/2)
-
-    def get_skill_ability(self, skill):
-        return None  # skills_dict[skill]["ability"]
+        return math.floor()
 
     def parse_skills(self):
         skill_dict = {}
-        skill_reg = re.compile("(?P<name>[A-z )]+), ?(?P<subtype>\([A-z]\)), (?P<bonus>[0-9+- ]")
-        for skill in self.block["skills"]:
+        skill_reg = re.compile("(?P<name>[A-z )]+), ?(?P<subtype>\([A-z()]\)), (?P<bonus>[0-9+-])")
+        for skill in self.block[self.skills]:
             match = skill_reg.match(skill)
             name = match[0]
             bonus = match[-1]
@@ -40,7 +103,7 @@ class Creature:
             if match:
                 self.skills[match.groupdict()["name"]] = {"total": match.groupdict()["bonus"]}
             if match.groupdict().get("subtype", False):
-                self.skills[match.groupdict()["name"]] = subtype
+                self.skills[match.groupdict()["name"]]
             skill_dict[name] = {"total": bonus, "subtype": subtype, "ability": self.get_ability_mod(self.get_skill_ability(name))}
 
         return skill_dict
@@ -143,13 +206,13 @@ BONUS_TYPES= {
 def main():
     DATABASE = connect_db()
     items = DATABASE.items
-    character = {}
     file_name = "../data/acid_terror.json"
     block = get_block(file_name)
     if not block:
         print("File did not load correctly")
         return -1
-    parse_classes(get_classes(block), character)
+    character = Creature(block)
+    parse_classes(character.get_classes(block), character)
     parse_race(block["race"], character)
     parse_skills(block["skills"], character)
     parse_feats(block["feats"], character)

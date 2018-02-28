@@ -65,6 +65,7 @@
         "Wind Stance"
     ],
     "flatfooted": "31",
+    "fortitude": "+18",
     "gender": null,
     "hitdice": "20d8+60",
     "hp": "153",
@@ -95,6 +96,9 @@
     ],
     "race": "Human",
     "ranged": "mwk shuriken +18/+13/+8 (1d2+4) or mwk shuriken flurry of blows +21/+21/+16/+16/+11/+11/+6 (1d2+4)",
+    "reflex": "+18",
+    "resists": "s",
+    "save_modifiers": "+2 vs. enchantment",
     "size": "Medium",
     "skills": [
         "Acrobatics +20 (+64 when jumping)",
@@ -119,10 +123,7 @@
         "empty body",
         "fast movement",
         "high jump",
-        "ki pool (17 points",
-        "adamantine",
-        "lawful",
-        "magic)",
+        "ki pool (17 points, adamantine, lawful, magic)",
         "maneuver training",
         "perfect self",
         "purity of body",
@@ -139,6 +140,7 @@
     },
     "touch": "27",
     "type": "outsider",
+    "will": "+23",
     "wisdom": "24",
     "xp": "204,800"
 }

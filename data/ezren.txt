@@ -5,7 +5,7 @@ NG medium humanoid (human)
 Init +1; Senses Perception +1
 DEFENSE
 AC 13, touch 12, flat-footed 12 (+1 deflection, +1 Dex, +1 natural)
-hp 44 (6d6+18)	
+hp 44 (6d6+18)
 Fort +5, Ref +4, Will +7
 OFFENSE
 Speed 30 ft.
