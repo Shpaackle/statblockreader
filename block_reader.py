@@ -27,8 +27,7 @@ REGEX = {
                                           "?P<perception>[-+0-9]+)"),
     "defense" : re.compile("AC (?P<ac>[0-9]+), touch (?P<touch>[0-9]+), flat-footed (?P<flatfooted>[0-9]+) \((?P<ac_stat0>[0-9+-]+)? ?(?P<ac_component0>[A-z]+)?,? ?(?P<ac_stat1>[0-9+-]+)? ?(?P<ac_component1>[A-z]+)?,? ?(?P<ac_stat2>[0-9+-]+)? ?(?P<ac_component2>[A-z]+)?,? ?(?P<ac_stat3>[0-9+-]+)? ?(?P<ac_component3>[A-z]+)?,? ?(?P<ac_stat4>[0-9+-]+)? ?(?P<ac_component4>[A-z]+)?,? ?(?P<ac_stat5>[0-9+-]+)? ?(?P<ac_component5>[A-z]+)?,? ?(?P<ac_stat6>[0-9+-]+)? ?(?P<ac_component6>[A-z]+)?,? ?(?P<ac_stat7>[0-9+-]+)? ?(?P<ac_component7>[A-z]+)?\)"),
     "hp" : re.compile("hp (?P<hp>[0-9]+) \((?P<hitdice>[0-9d+]+)\)"),
-    "saves" : re.compile("Fort (?P<fortitude>[-+0-9]+), Ref (?P<reflex>[-+0-9]+), Will (?P<will>[-+0-9]+)?(; )?("
-                         "?P<save_modifiers>[^;]+)(; )?(?P<resists>.+)$"),
+    "saves" : re.compile("Fort (?P<fortitude>[-+0-9]+), Ref (?P<reflex>[-+0-9]+), Will (?P<will>[-+0-9]+)(; )?(?P<save_modifiers>[^;]*)?(; )?(?P<resists>.+)?$"),
     "defensive_abilities" : re.compile("Defensive Abilities (?P<defensive_abilities>.+)"),
     "speed" : re.compile("Speed (?P<speed>[0-9]+) ft."),
     "caster_level" : re.compile("(?P<spell_class>[A-z]+) Spells (Known|Prepared) \(CL (?P<caster_level>[0-9]+..); concentration (?P<concentration>[+0-9]+)(, )?(arcane spell failure )?(?P<arcane_spell_failure>[0-9]+)?"),
