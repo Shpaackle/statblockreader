@@ -19,4 +19,5 @@ class Basic_Item(Document):
 class Magic_Item(Basic_Item):
 	slot = StringField(max_length=120)
 	requirements = StringField()
-	
+	caster_level = StringField(max_length=120)
+	bonus = 
