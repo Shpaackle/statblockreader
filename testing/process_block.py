@@ -3,7 +3,7 @@ import json
 import re
 import math
 
-from test.db import connect_to_database as connect_db
+from testing.db import connect_to_database as connect_db
 
 
 class Attribute:
@@ -16,7 +16,14 @@ class Attribute:
     def set_base(self, amount):
         self.base = amount
 
+    def remove_bonus(self, bonus_removed):
+        pass
+
+    def find_bonus_type(self, bonus_type):
+            pass
+
     def add_bonus(self, new_bonus):
+        # check if bonus type already exists
         if self.bonuses.get(new_bonus.kind, False):
             if new_bonus.is_stackable:
                 self.bonuses[new_bonus.kind].append(new_bonus)
@@ -36,14 +43,38 @@ class Attribute:
                     elif bonus.amount < 0:
                         pass
             """
-    def find_bonus_type(self, bonus_type):
+
+    def set_total(self):
+        temp = self.base
+        for key in self.bonuses.keys():
+            for bonus in self.bonuses[key]:
+                if bonus.add_to_total:
+                    temp += bonus.amount
+            pass
+
+
+class AbilityScore(Attribute):
+    def __init__(self, name, base=-1):
+        self.name = name
+        self.base = base
+        self.bonuses = {}
+        self.total = base
+
+
+    def get_modifier(self):
         pass
 
 
 class Skill(Attribute):
-    def __init__(self, name, stat, base=-1):
-        self.stat = stat
+    def __init__(self, name, ability, base=-1):
+        self.key_ability = ability
         super(Attribute, self).__init__(name, base)
+
+    def add_ranks(self, amount):
+        self.rank += amount
+
+    def remove_ranks(self, amount):
+        self.rank -= amount
 
 
 class Race:
@@ -51,6 +82,11 @@ class Race:
         self.name = name
         self.main_type = main_type
         self.subtype = subtype
+        self.granted_abilities = {}
+        self.size = None
+        self.speed = None
+        self.languages = []
+        self.senses = []
 
 
 class Bonus:
@@ -67,9 +103,23 @@ class Bonus:
             self.amount = amount
         self.duration = duration
         self.is_stackable = is_stackable
+        self.add_to_total = False
 
     def change_amount(self, amount):
         self.amount = amount
+
+
+def get_block(file_name):
+    """
+    check if json file
+    then open json and return file
+    otherwise, return None
+    """
+    if os.path.splitext(file_name)[1] == ".json":
+        file = open(file_name)
+        return json.load(file)
+    else:
+        return None
 
 
 class Creature:
@@ -79,7 +129,8 @@ class Creature:
         self.AC = {}
         self.skills = {}
         self.race = None
-
+        self.abilities = {}
+        self.feats = {}
 
     def assign_race(self):
         pass
@@ -109,17 +160,22 @@ class Creature:
         return skill_dict
 
 
-def get_block(file_name):
-    """
-    check if json file
-    then open json and return file
-    otherwise, return None
-    """
-    if os.path.splitext(file_name)[1] == ".json":
-        file = open(file_name)
-        return json.load(file)
-    else:
-        return None
+
+class Feat:
+    def __init__(self, name, category, subcategory=None, description=None, prereqs=None):
+        self.name = name
+        self.category = category
+        self.subcategory = subcategory
+        self.description = description
+        self.prereqs = prereqs
+        self.is_bonus = False
+
+    def check_prereqs(self, character):
+        pass
+
+
+class BlockError():
+    pass
 
 
 def parse_classes(block_classes, character):
