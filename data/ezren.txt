@@ -1,8 +1,8 @@
 EZREN CR 1
 XP 1
-Male old human wizard 6
+Male old human wizard (exploiter wizard) 6
 NG medium humanoid (human)
-Init +1; Senses  Perception +1
+Init +1; Senses Perception +1
 DEFENSE
 AC 13, touch 12, flat-footed 12 (+1 deflection, +1 Dex, +1 natural)
 hp 44 (6d6+18)
