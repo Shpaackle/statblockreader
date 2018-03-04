@@ -2,15 +2,16 @@ import os
 import json
 import re
 import math
+import pprint
 
-from testing.db import connect_to_database as connect_db
+from db import connect_to_database as connect_db
 
 
 class Attribute:
     def __init__(self, name, base=-1):
         self.name = name
         self.base = base
-        self.bonuses = {}
+        self.bonuses = {}  # keys are type of bonus, list of current bonuses as values
         self.total = self.base
 
     def set_base(self, amount):
@@ -55,11 +56,8 @@ class Attribute:
 
 class AbilityScore(Attribute):
     def __init__(self, name, base=-1):
-        self.name = name
-        self.base = base
-        self.bonuses = {}
-        self.total = base
-
+        super().__init__(name, base)
+        self.point_buy_cost = 0
 
     def get_modifier(self):
         pass
@@ -67,14 +65,17 @@ class AbilityScore(Attribute):
 
 class Skill(Attribute):
     def __init__(self, name, ability, base=-1):
+        super().__init__(name, base)
         self.key_ability = ability
-        super(Attribute, self).__init__(name, base)
+        self.ranks = 0
+        self.untrained = False
+        self.armor_check_penalty = False
 
     def add_ranks(self, amount):
-        self.rank += amount
+        self.ranks += amount
 
     def remove_ranks(self, amount):
-        self.rank -= amount
+        self.ranks -= amount
 
 
 class Race:
@@ -115,11 +116,14 @@ def get_block(file_name):
     then open json and return file
     otherwise, return None
     """
-    if os.path.splitext(file_name)[1] == ".json":
-        file = open(file_name)
-        return json.load(file)
-    else:
-        return None
+    pprint.pprint(file_name)
+    data_folder = '../data/'
+    try:
+        with open(data_folder + file_name) as f:
+            # grab all lines of statblock
+            return json.load(f)
+    except TypeError:
+        return file_name
 
 
 class Creature:
@@ -135,30 +139,30 @@ class Creature:
     def assign_race(self):
         pass
 
-    def get_classes(self, block):
-        return [(block["class"], block["level"]),
-                (block.get("class2", None), block.get("level2", None)),
-                (block.get("class3", None), block.get("level3", None))]
+    def get_classes(self):
+        return [(self.block["class"], self.block["level"]),
+                (self.block.get("class2", None), self.block.get("level2", None)),
+                (self.block.get("class3", None), self.block.get("level3", None))]
 
-    def get_ability_mod(self, ability):
-        return math.floor()
+    @staticmethod
+    def get_ability_mod(ability):
+        return math.floor((ability.total-10)/2)
 
     def parse_skills(self):
         skill_dict = {}
-        skill_reg = re.compile("(?P<name>[A-z )]+), ?(?P<subtype>\([A-z()]\)), (?P<bonus>[0-9+-])")
-        for skill in self.block[self.skills]:
+        skill_reg = re.compile("(?P<name>[A-z ]*) ?(?P<subtype>[A-z() ]+)? (?P<bonus>[0-9+-]+)")
+        for skill in self.block["skills"]:
             match = skill_reg.match(skill)
-            name = match[0]
-            bonus = match[-1]
+            name = match.groupdict().get("name")
+            bonus = match.groupdict().get("bonus")
             subtype = match.groupdict().get("subtype", None)
             if match:
                 self.skills[match.groupdict()["name"]] = {"total": match.groupdict()["bonus"]}
-            if match.groupdict().get("subtype", False):
-                self.skills[match.groupdict()["name"]]
-            skill_dict[name] = {"total": bonus, "subtype": subtype, "ability": self.get_ability_mod(self.get_skill_ability(name))}
+            if subtype:
+                self.skills[match.groupdict()["name"]]["subtype"] = match.groupdict()["subtype"]
+            skill_dict[name] = {"total": bonus, "subtype": subtype, "ability": "TEST"}
 
         return skill_dict
-
 
 
 class Feat:
@@ -170,11 +174,11 @@ class Feat:
         self.prereqs = prereqs
         self.is_bonus = False
 
-    def check_prereqs(self, character):
+    def check_prerequisites(self, character):
         pass
 
 
-class BlockError():
+class BlockError:
     pass
 
 
@@ -206,7 +210,6 @@ def check_saves(block_saves, character):
     pass
 
 
-DATABASE = None
 SAVES_DICT = {"classes": [],
               "ability mod": None,
               "gear": None,
@@ -216,9 +219,9 @@ SAVES_DICT = {"classes": [],
 }
 CLASSES_DICT = {}
 RACE_DICT = {}
-ABILITY_SCORES_DICT = {"base": [], # integer plus point buy value
+ABILITY_SCORES_DICT = {"base": [],  # integer plus point buy value
                        "race": [],
-                       "levels": [], # index is levels/4 - 1
+                       "levels": [],  # index is levels/4 - 1
                        "gear": []
                        }
 HP_DICT = {}
@@ -235,7 +238,7 @@ AC_DICT = {"base": 10,
            "deflection": None,
            "size": None,
            }
-BONUS_TYPES= {
+BONUS_TYPES = {
                 "alchemical": False,
                 "armor": False,
                 "base attack bonus": False,
@@ -260,22 +263,27 @@ BONUS_TYPES= {
 
 
 def main():
-    DATABASE = connect_db()
-    items = DATABASE.items
-    file_name = "../data/acid_terror.json"
+    database = connect_db()
+    items = database.items
+    file_name = "ageless_master.json"
+    pprint.pprint(file_name)
     block = get_block(file_name)
     if not block:
         print("File did not load correctly")
         return -1
     character = Creature(block)
-    parse_classes(character.get_classes(block), character)
+    parse_classes(character.get_classes(), character)
     parse_race(block["race"], character)
     parse_skills(block["skills"], character)
+    character.parse_skills()
     parse_feats(block["feats"], character)
     parse_equipment([block["combat gear"], block["other gear"]], character)
 
     check_hp(block, character)
     check_saves(block, character)
+
+    pprint.pprint(character.name)
+    pprint.pprint(character.skills)
 
 
 if __name__ == "__main__":
