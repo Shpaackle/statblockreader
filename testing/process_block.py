@@ -5,6 +5,7 @@ import math
 import pprint
 
 from db import connect_to_database as connect_db
+from data.big_dict import skill_abilities
 
 
 class Attribute:
@@ -190,10 +191,6 @@ def parse_race(block_race, character):
     pass
 
 
-def parse_skills(block_skills, character):
-    pass
-
-
 def parse_feats(block_feats, character):
     pass
 
@@ -266,21 +263,15 @@ def main():
     database = connect_db()
     items = database.items
     file_name = "ageless_master.json"
-    pprint.pprint(file_name)
-    block = get_block(file_name)
-    if not block:
-        print("File did not load correctly")
-        return -1
-    character = Creature(block)
+    character = Creature(file_name)
     parse_classes(character.get_classes(), character)
-    parse_race(block["race"], character)
-    parse_skills(block["skills"], character)
+    parse_race(character.block["race"], character)
     character.parse_skills()
-    parse_feats(block["feats"], character)
-    parse_equipment([block["combat gear"], block["other gear"]], character)
+    parse_feats(character.block["feats"], character)
+    parse_equipment([character.block["combat gear"], character.block["other gear"]], character)
 
-    check_hp(block, character)
-    check_saves(block, character)
+    check_hp(character.block, character)
+    check_saves(character.block, character)
 
     pprint.pprint(character.name)
     pprint.pprint(character.skills)
