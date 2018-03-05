@@ -5,7 +5,6 @@ import math
 import pprint
 
 from db import connect_to_database as connect_db
-from data.big_dict import skill_abilities
 
 
 class Attribute:
@@ -65,12 +64,13 @@ class AbilityScore(Attribute):
 
 
 class Skill(Attribute):
-    def __init__(self, name, ability, base=-1):
-        super().__init__(name, base)
-        self.key_ability = ability
-        self.ranks = 0
-        self.untrained = False
-        self.armor_check_penalty = False
+    def __init__(self, db_skill, base=-1, ranks=0, ):
+        super().__init__(db_skill["name"], base)
+        self.key_ability = db_skill["ability"]
+        self.ranks = ranks
+        self.untrained = db_skill.get("untrained", False)
+        self.armor_check = db_skill.get("armor_check", False)
+        self.subtype = db_skill.get("subtype", False)
 
     def add_ranks(self, amount):
         self.ranks += amount

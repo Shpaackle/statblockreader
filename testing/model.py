@@ -97,6 +97,14 @@ class Wand(MagicItem):
     spell = ReferenceField(Spell)
 
 
+class Skill(Document):
+    name = StringField(max_length=120)
+    ability = StringField(max_length=120)
+    untrained = BooleanField()
+    armor_check = BooleanField()
+    subtype = BooleanField()
+
+
 class _Class(Document):
     name = StringField(max_length=120)
     skills = ListField(StringField(max_length=120))
