@@ -5,6 +5,7 @@ import math
 import pprint
 
 from db import connect_to_database as connect_db
+from testing.model import Skill as DatabaseSkill
 
 
 class Attribute:
@@ -21,7 +22,7 @@ class Attribute:
         pass
 
     def find_bonus_type(self, bonus_type):
-            pass
+        pass
 
     def add_bonus(self, new_bonus):
         # check if bonus type already exists
@@ -65,12 +66,22 @@ class AbilityScore(Attribute):
 
 class Skill(Attribute):
     def __init__(self, db_skill, base=-1, ranks=0, ):
-        super().__init__(db_skill["name"], base)
-        self.key_ability = db_skill["ability"]
+        super().__init__(db_skill.name, base)
+        self.key_ability = db_skill.ability
         self.ranks = ranks
-        self.untrained = db_skill.get("untrained", False)
-        self.armor_check = db_skill.get("armor_check", False)
-        self.subtype = db_skill.get("subtype", False)
+        self.untrained = db_skill.untrained
+        self.armor_check = db_skill.armor_check
+        if db_skill.subtype:
+            self.subtype = db_skill.subtype
+        self.is_class_skill = False
+        self.special = []
+
+    def __str__(self):
+        message = "{}  +{} = {} + {}".format(self.name, self.base, self.ranks, self.key_ability)
+        return message
+
+    def toggle_class_skill(self):
+        self.is_class_skill = not self.is_class_skill
 
     def add_ranks(self, amount):
         self.ranks += amount
@@ -111,6 +122,22 @@ class Bonus:
         self.amount = amount
 
 
+class Class:
+    def __init__(self, db_class):
+        self.name = db_class.name
+        self.hit_die = db_class.hit_die
+        self.skill_points = db_class.skill_points
+        self.alignment = db_class.alignment
+        self.abilities = []
+        self.class_skills = {}
+        self.spells_per_day = None
+        self.spells_known = []
+        self.saves = []
+        self.is_prestige = db_class.is_prestige
+        self.is_favored = False
+        self.favored_bonus = None
+
+
 def get_block(file_name):
     """
     check if json file
@@ -134,8 +161,17 @@ class Creature:
         self.AC = {}
         self.skills = {}
         self.race = None
-        self.abilities = {}
+        self.abilities = {"Str": 14,
+                          "Dex": 16,
+                          "Con": 18,
+                          "Int": 12,
+                          "Wis": 15,
+                          "Cha": 10
+                          }
         self.feats = {}
+        self.encumbrance = {"weight": {"total": 0, "sum": []}, "max_load": None, "light_load": None,
+                            "medium_load": None, "heavy_load": None}
+        self.armor_check_penalty = {"total": 0, "armor": 0, "encumbrance": 0}
 
     def assign_race(self):
         pass
@@ -147,7 +183,7 @@ class Creature:
 
     @staticmethod
     def get_ability_mod(ability):
-        return math.floor((ability.total-10)/2)
+        return math.floor((ability.total - 10) / 2)
 
     def parse_skills(self):
         skill_dict = {}
@@ -164,6 +200,16 @@ class Creature:
             skill_dict[name] = {"total": bonus, "subtype": subtype, "ability": "TEST"}
 
         return skill_dict
+
+    def get_skill_totals(self, needed_skills=["Stealth", "Perception"]):
+        for skill in needed_skills:
+            temp_total = 0
+            curr_skill = self.skills[skill]
+            pprint.pprint(str(curr_skill))
+            # temp_total = curr_skill.ranks + self.abilities[curr_skill.key_ability].get_ability_modifier()
+            for bonus_type in curr_skill.bonuses.keys():
+                print(str(bonus_type))
+                pass
 
 
 class Feat:
@@ -213,7 +259,7 @@ SAVES_DICT = {"classes": [],
               "racial": None,
               "feats": None,
               "other": []
-}
+              }
 CLASSES_DICT = {}
 RACE_DICT = {}
 ABILITY_SCORES_DICT = {"base": [],  # integer plus point buy value
@@ -236,27 +282,43 @@ AC_DICT = {"base": 10,
            "size": None,
            }
 BONUS_TYPES = {
-                "alchemical": False,
-                "armor": False,
-                "base attack bonus": False,
-                "circumstance": True,
-                "competence": False,
-                "deflection": False,
-                "dodge": True,
-                "enhancement": False,
-                "inherent": False,
-                "insight": True,
-                "luck": False,
-                "morale": False,
-                "natural armor": False,
-                "profane": False,
-                "racial": False,
-                "resistance": False,
-                "sacred": False,
-                "shield": False,
-                "size": True,
-                "trait": False
+    "alchemical": False,
+    "armor": False,
+    "base attack bonus": False,
+    "circumstance": True,
+    "competence": False,
+    "deflection": False,
+    "dodge": True,
+    "enhancement": False,
+    "inherent": False,
+    "insight": True,
+    "luck": False,
+    "morale": False,
+    "natural armor": False,
+    "profane": False,
+    "racial": False,
+    "resistance": False,
+    "sacred": False,
+    "shield": False,
+    "size": True,
+    "trait": False
 }
+
+
+def test_skills(character):
+    class TestSkill:
+        def __init__(self, name, ability, untrained, armor_check, subtype=False):
+            self.name = name
+            self.ability = ability
+            self.untrained = untrained
+            self.armor_check = armor_check
+            self.subtype = subtype
+
+    stealth = TestSkill("Stealth", "Dex", True, True)
+    perception = TestSkill("Perception", "Wis", True, False)
+    character.skills["Stealth"] = Skill(stealth, base=18, ranks=6)
+    character.skills["Perception"] = Skill(perception, base=28, ranks=19)
+    character.get_skill_totals()
 
 
 def main():
@@ -275,6 +337,8 @@ def main():
 
     pprint.pprint(character.name)
     pprint.pprint(character.skills)
+
+    test_skills(character)
 
 
 if __name__ == "__main__":
