@@ -201,15 +201,28 @@ class Creature:
 
         return skill_dict
 
-    def get_skill_totals(self, needed_skills=["Stealth", "Perception"]):
-        for skill in needed_skills:
-            temp_total = 0
-            curr_skill = self.skills[skill]
-            pprint.pprint(str(curr_skill))
-            # temp_total = curr_skill.ranks + self.abilities[curr_skill.key_ability].get_ability_modifier()
-            for bonus_type in curr_skill.bonuses.keys():
-                print(str(bonus_type))
-                pass
+	def get_skill_totals(self):
+		"""
+		for every skill in self.skills
+			SET temp_total to 0
+			SET ability_mod to current skill's key_ability mod
+			ADD ability_mod to temp_total
+			ADD ranks to temp_total
+			GET all_bonuses from skill.bonuses
+			FOR every bonus_type in all_bonuses
+				SET max_bonus, type_total to 0
+				FOR every bonus in bonus_type
+					IF stackable
+						ADD bonus amount to temp_total
+						ADD bonus amount to type_total
+					ELIF bonus amount > 0 and > max_bonus
+						SET max_bonus to bonus amount
+					ELIF bonus amount < 0 and < max_bonus
+						IF max_bonus > 0
+							ADD bonus amount to temp_total
+						ELSE SET max bonus to bonus amount
+					ADD max_bonus to temp_total
+		"""
 
 
 class Feat:
