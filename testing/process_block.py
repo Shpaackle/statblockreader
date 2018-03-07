@@ -186,6 +186,9 @@ class Creature:
         return math.floor((ability.total - 10) / 2)
 
     def parse_skills(self):
+    	"""
+    	
+    	"""
         skill_dict = {}
         skill_reg = re.compile("(?P<name>[A-z ]*) ?(?P<subtype>[A-z() ]+)? (?P<bonus>[0-9+-]+)")
         for skill in self.block["skills"]:
@@ -217,11 +220,16 @@ class Creature:
 						ADD bonus amount to type_total
 					ELIF bonus amount > 0 and > max_bonus
 						SET max_bonus to bonus amount
+						SET type_total to bonus amount
 					ELIF bonus amount < 0 and < max_bonus
 						IF max_bonus > 0
 							ADD bonus amount to temp_total
-						ELSE SET max bonus to bonus amount
+						ELSE 
+							SET max bonus to bonus amount
+						ADD bonus amount to type_total
 					ADD max_bonus to temp_total
+				SET bonus_type.total to type_total
+			SET skill total to temp total
 		"""
 
 
