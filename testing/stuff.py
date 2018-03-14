@@ -259,15 +259,14 @@ block_found = False
 for index, line in enumerate(lines):
     if len(line) < 1:
         continue
+
     if index < last_index:
-        print(str(index))
         pass
     elif line[0] == '#':  # block tag, block headers, item notes
         if line[1] == "#":
             blocks.append(temp_dict)
             block_found = True
             block_name = re.search(regex_dict["block_name"], line).group(1)
-            print("block name = {}".format(block_name))
             temp_dict = {"block_name": block_name}
         elif block_found:
             block_tags = re.findall(regex_dict["block_tags"], line)
@@ -290,6 +289,17 @@ with open("../data/test_stuff.json", "w") as file:
     json.dump(final_dict, file, indent=4, sort_keys=True)
 # pprint.pprint(temp_dict)
 
+for _line in lines[10:21]:
+    #pprint.pprint(_line.split('\t'), compact=True)
+    ...
+    for word in _line.split('\t'):
+        if not word:
+            #print("Empty", end='\t')
+            ...
+        else:
+            print(word.strip(), end='\t')
+    print('\n')
 
-class Creature:
-    pass
+
+def lst_reader():
+    ...
