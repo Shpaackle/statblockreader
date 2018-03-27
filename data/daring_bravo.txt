@@ -1,0 +1,24 @@
+Daring Bravo CR 1
+XP 400
+Gnome Fighter 2
+CN Small humanoid (gnome)
+Init +2; Senses low-light vision; Perception +2
+DEFENSE
+AC 18, touch 14, flat-footed 15 (+3 armor, +2 Dex, +1 dodge, +1 shield, +1 size)
+hp 21 (2d10+6)
+Fort +5, Ref +2, Will +0; +2 vs. illusions, +1 vs. fear
+Defensive Abilities bravery +1, defensive training (+4 dodge bonus to AC vs. giants)
+OFFENSE
+Speed 20 ft.
+Melee mwk rapier +6 (1d4+1/18–20) or dagger +5 (1d3+1/18–20)
+Ranged composite longbow +5 (1d6+1/×3)
+Special Attacks +1 on attack rolls against goblinoid and reptilian humanoids
+TACTICS
+During Combat The fighter shifts to maintain an advantageous position. If facing a similarly mobile foe, she resorts to her tanglefoot bag.
+STATISTICS
+Str 12, Dex 15, Con 14, Int 13, Wis 10, Cha 10
+Base Atk +2; CMB +2; CMD 15
+Feats Dodge, Mobility, Weapon Finesse
+Skills Acrobatics +3 (–1 when jumping), Intimidate +4, Knowledge (nobility) +2, Perception +2, Stealth +7
+Languages Common, Gnome, Halfling, Sylvan
+Combat Gear tanglefoot bag; Other Gear studded leather, masterwork buckler, composite longbow with 20 arrows, dagger, masterwork rapier, wineskin, 16 gp

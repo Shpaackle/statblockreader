@@ -103,10 +103,11 @@ class Race:
 
 
 class Bonus:
-    def __init__(self, source="Breastplate", modifies="AC", kind="armor", amount=6, duration=-1, is_stackable=False):
+    def __init__(self, source="Breastplate", modifies="AC", bonus_type="armor", amount=6, duration=-1,
+                 is_stackable=False):
         self.source = source
         self.modifies = modifies
-        self.kind = kind
+        self.bonus_type = bonus_type
         try:
             if (amount[0] == '+') or (amount[0] == '-'):
                 self.amount = int(amount[1:].strip())
@@ -340,6 +341,29 @@ def test_skills(character):
     character.skills["Stealth"] = Skill(stealth, base=18, ranks=6)
     character.skills["Perception"] = Skill(perception, base=28, ranks=19)
     character.get_skill_totals()
+
+
+gnome = {
+    "name": "gnome",
+    "race_type": "humanoid",
+    "race_subtype": "gnome",
+    "racial traits": {
+        "ability score modifiers": [Bonus(source="gnome racial traits", modifies="CON", bonus_type="racial",
+                                          amount=2, duration=-1, is_stackable=False),
+                                    Bonus(source="gnome racial traits", modifies="CHA", bonus_type="racial",
+                                          amount=2, duration=-1, is_stackable=False),
+                                    Bonus(source="gnome racial traits", modifies="STR", bonus_type="racial",
+                                          amount=-2, duration=-1, is_stackable=False)],
+        "small": [Bonus(source="small size", modifies="AC", bonus_type="size", amount=1),
+                  Bonus(source="small size", modifies="ATK", bonus_type="size", amount=1),
+                  Bonus(source="small size", modifies="CMB", bonus_type="untyped", amount=-1, is_stackable=True),
+                  Bonus(source="small size", modifies="CMD", bonus_type="untyped", amount=-1, is_stackable=True),
+                  Bonus(source="small size", modifies="SKILL:Stealth", bonus_type="size", amount=4)],
+        "slow speed": Attribute("speed", base=20),
+        "low-light vision": {"senses": "low-light vision"},
+        "defensive training": {}
+    }
+}
 
 
 def main():

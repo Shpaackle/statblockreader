@@ -5,6 +5,7 @@ import sys
 import re
 import json
 import logging
+from data import bag_of_dicts
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, format=" %(asctime)s -  %(levelname)s -  %(message)s")
@@ -18,26 +19,34 @@ CLASSES = ["sorcerer", "wizard", "cleric", "fighter",
            "class"]
 
 REGEX = {
-    "spells" : re.compile("(?P<level>[0-9])(?:[a-z]{2})? ?(?P<perday>\([A-z0-9 /]+\))?[^A-z0-9]*(?P<spells>[A-z0-9(),'/ ]+)$"),
-    "name_and_cr" : re.compile("(?P<name>[A-z0-9 ']+?)(?: CR )?(?P<cr>[0-9]+)?$"),
-    "xp" : re.compile("XP (?P<xp>[0-9,]+)"),
-    "gender_age_class" : re.compile("(?P<gender>Male|Female)? ?(?P<age>old|middle-aged|middle aged|middle-age|middle age|young|venerable|age)? ?(?P<race>[A-z]+) (?P<class>[A-z ]+)(?P<subclass>[()A-z ]+)? (?P<level>[0-9]+)(/?(?P<class2>[A-z ]+)(?P<subclass2>[()A-z ]+)? (?P<level2>[0-9]+))?(/?(?P<class3>[A-z ]+)(?P<subclass3>[()A-z ]+)? (?P<level3>[0-9]+))?"),
-    "alignment_size_type_subtype" : re.compile("(?P<alignment>[A-z]+) (?P<size>[A-z]+) (?P<type>[A-z ]+) \((?P<subtype>[A-z -]+)\)"),
-    "init_senses_perception" : re.compile("Init (?P<init>[0-9+-]+); Senses(?P<senses>[A-z0-9\"',. ]+)?(; )?Perception ("
-                                          "?P<perception>[0-9+-]+)"),
-    "defense" : re.compile("AC (?P<ac>[0-9]+), touch (?P<touch>[0-9]+), flat-footed (?P<flatfooted>[0-9]+) \((?P<ac_stat0>[0-9+-]+)? ?(?P<ac_component0>[A-z]+)?,? ?(?P<ac_stat1>[0-9+-]+)? ?(?P<ac_component1>[A-z]+)?,? ?(?P<ac_stat2>[0-9+-]+)? ?(?P<ac_component2>[A-z]+)?,? ?(?P<ac_stat3>[0-9+-]+)? ?(?P<ac_component3>[A-z]+)?,? ?(?P<ac_stat4>[0-9+-]+)? ?(?P<ac_component4>[A-z]+)?,? ?(?P<ac_stat5>[0-9+-]+)? ?(?P<ac_component5>[A-z]+)?,? ?(?P<ac_stat6>[0-9+-]+)? ?(?P<ac_component6>[A-z]+)?,? ?(?P<ac_stat7>[0-9+-]+)? ?(?P<ac_component7>[A-z]+)?\)"),
-    "hp" : re.compile("hp (?P<hp>[0-9]+) \((?P<hitdice>[0-9d+]+)\)"),
-    "saves" : re.compile("Fort (?P<fortitude>[-+0-9]+), Ref (?P<reflex>[-+0-9]+), Will (?P<will>[-+0-9]+)(; )?(?P<save_modifiers>[^;]*)?(; )?(?P<resists>.+)?$"),
-    "defensive_abilities" : re.compile("Defensive Abilities (?P<defensive_abilities>.+)"),
-    "speed" : re.compile("Speed (?P<speed>[0-9]+) ft."),
-    "caster_level" : re.compile("(?P<spell_class>[A-z]+) Spells (Known|Prepared) \(CL (?P<caster_level>[0-9]+..); concentration (?P<concentration>[+0-9]+)(, )?(arcane spell failure )?(?P<arcane_spell_failure>[0-9]+)?"),
-    "ability_scores" : re.compile("Str (?P<strength>[0-9]+), Dex (?P<dexterity>[0-9]+), Con (?P<constitution>[0-9]+), Int (?P<Intelligence>[0-9]+), Wis (?P<wisdom>[0-9]+), Cha (?P<charisma>[0-9]+)"),
-    "attacks" : re.compile("Base Atk (?P<base_attack>[-+0-9]+); CMB (?P<cmb>[-+0-9]+)( \((?P<cmb_extra>[-+0-9]+ [A-z ]+)\))?; CMD (?P<cmd>[0-9]+)( \((?P<cmd_extra>[-+0-9]+ [A-z. ]+)\))?"),
-    "feats_skills_languages" : re.compile(r',\s*(?![^()]*\))'),  #(" ?([^,]+)")
-    "melee" : re.compile("Melee (?P<melee>.+)"),
-    "ranged" : re.compile("Ranged (?P<ranged>.+)"),
-    "special_attacks" : re.compile("Special Attack (?P<special_attacks>.+)"),
-    "spell-like_abilities" : re.compile("Spell-Like Abilities \(CL (?P<spell_like_cl>[0-9]+)..; concentration (?P<spell_like_concentration>[-+0-9]+)\)"),
+    "spells": re.compile(
+        "(?P<level>[0-9])(?:[a-z]{2})? ?(?P<perday>\([A-z0-9 /]+\))?[^A-z0-9]*(?P<spells>[A-z0-9(),'/ ]+)$"),
+    "name_and_cr": re.compile("(?P<name>[A-z0-9 ']+?)(?: CR )?(?P<cr>[0-9]+)?$"),
+    "xp": re.compile("XP (?P<xp>[0-9,]+)"),
+    "gender_age_class": re.compile(
+        "(?P<gender>Male|Female)? ?(?P<age>old|middle-aged|middle aged|middle-age|middle age|young|venerable|age)? ?(?P<race>[A-z]+) (?P<class>[A-z ]+)(?P<subclass>[()A-z ]+)? (?P<level>[0-9]+)(/?(?P<class2>[A-z ]+)(?P<subclass2>[()A-z ]+)? (?P<level2>[0-9]+))?(/?(?P<class3>[A-z ]+)(?P<subclass3>[()A-z ]+)? (?P<level3>[0-9]+))?"),
+    "alignment_size_type_subtype": re.compile(
+        "(?P<alignment>[A-z]+) (?P<size>[A-z]+) (?P<type>[A-z ]+) \((?P<subtype>[A-z -]+)\)"),
+    "init_senses_perception": re.compile("Init (?P<init>[0-9+-]+); Senses(?P<senses>[^;]+)?(; )?Perception (?P<perception>[0-9+-]+)"),
+    "defense": re.compile(
+        "AC (?P<ac>[0-9]+), touch (?P<touch>[0-9]+), flat-footed (?P<flatfooted>[0-9]+) \((?P<ac_stat0>[0-9+-]+)? ?(?P<ac_component0>[A-z]+)?,? ?(?P<ac_stat1>[0-9+-]+)? ?(?P<ac_component1>[A-z]+)?,? ?(?P<ac_stat2>[0-9+-]+)? ?(?P<ac_component2>[A-z]+)?,? ?(?P<ac_stat3>[0-9+-]+)? ?(?P<ac_component3>[A-z]+)?,? ?(?P<ac_stat4>[0-9+-]+)? ?(?P<ac_component4>[A-z]+)?,? ?(?P<ac_stat5>[0-9+-]+)? ?(?P<ac_component5>[A-z]+)?,? ?(?P<ac_stat6>[0-9+-]+)? ?(?P<ac_component6>[A-z]+)?,? ?(?P<ac_stat7>[0-9+-]+)? ?(?P<ac_component7>[A-z]+)?\)"),
+    "hp": re.compile("hp (?P<hp>[0-9]+) \((?P<hitdice>[0-9d+]+)\)"),
+    "saves": re.compile(
+        "Fort (?P<fortitude>[-+0-9]+), Ref (?P<reflex>[-+0-9]+), Will (?P<will>[-+0-9]+)(; )?(?P<save_modifiers>[^;]*)?(; )?(?P<resists>.+)?$"),
+    "defensive_abilities": re.compile("Defensive Abilities (?P<defensive_abilities>.+)"),
+    "speed": re.compile("Speed (?P<speed>[0-9]+) ft."),
+    "caster_level": re.compile(
+        "(?P<spell_class>[A-z]+) Spells (Known|Prepared) \(CL (?P<caster_level>[0-9]+..); concentration (?P<concentration>[+0-9]+)(, )?(arcane spell failure )?(?P<arcane_spell_failure>[0-9]+)?"),
+    "ability_scores": re.compile(
+        "Str (?P<strength>[0-9]+), Dex (?P<dexterity>[0-9]+), Con (?P<constitution>[0-9]+), Int (?P<Intelligence>[0-9]+), Wis (?P<wisdom>[0-9]+), Cha (?P<charisma>[0-9]+)"),
+    "attacks": re.compile(
+        "Base Atk (?P<base_attack>[-+0-9]+); CMB (?P<cmb>[-+0-9]+)( \((?P<cmb_extra>[-+0-9]+ [A-z ]+)\))?; CMD (?P<cmd>[0-9]+)( \((?P<cmd_extra>[-+0-9]+ [A-z. ]+)\))?"),
+    "feats_skills_languages": re.compile(r',\s*(?![^()]*\))'),  # (" ?([^,]+)")
+    "melee": re.compile("Melee (?P<melee>.+)"),
+    "ranged": re.compile("Ranged (?P<ranged>.+)"),
+    "special_attacks": re.compile("Special Attack (?P<special_attacks>.+)"),
+    "spell-like_abilities": re.compile(
+        "Spell-Like Abilities \(CL (?P<spell_like_cl>[0-9]+)..; concentration (?P<spell_like_concentration>[-+0-9]+)\)"),
 
 }
 
@@ -90,11 +99,11 @@ def main():
             creature = match_line("xp", line, creature)
             for line in sections["START"]:
                 # Get name and CR
-                #creature = match_line("name_and_cr", line, creature)
-                #creature = match_line("xp", line, creature)
+                # creature = match_line("name_and_cr", line, creature)
+                # creature = match_line("xp", line, creature)
                 creature = match_line("gender_age_class", line, creature)
 
-            # split alignment/size/type line
+                # split alignment/size/type line
                 creature = match_line("alignment_size_type_subtype", line, creature)
                 creature = match_line("init_senses_perception", line, creature)
 
@@ -120,17 +129,17 @@ def main():
                 lvlspells = match_spells(line)
                 if lvlspells:
                     spells[lvlspells["level"]] = {
-                    "spells": lvlspells["spells"].strip().split(", "),
-                    "perday": lvlspells["perday"]
+                        "spells": lvlspells["spells"].strip().split(", "),
+                        "perday": lvlspells["perday"]
                     }
             creature["spells"] = spells
-#                if not sections["OFFENSE"]:
-#                    temp = line.split(' ')
-#                    if "Opposition" in temp:
-#                        special = [" ".join(temp[0:2]), " ".join(temp[2:])]
-#                    else:
-#                        special = [temp[0], " ".join(temp[1:])]
-#                    creature[special[0]] = special[1]
+            #                if not sections["OFFENSE"]:
+            #                    temp = line.split(' ')
+            #                    if "Opposition" in temp:
+            #                        special = [" ".join(temp[0:2]), " ".join(temp[2:])]
+            #                    else:
+            #                        special = [temp[0], " ".join(temp[1:])]
+            #                    creature[special[0]] = special[1]
 
             # TACTICS
             if sections["TACTICS"]:
@@ -152,7 +161,7 @@ def main():
 
                 match_line("ability_scores", line, creature)
                 match_line("attacks", line, creature)
-                
+
                 if "Feats" in first:
                     creature["feats"] = REGEX["feats_skills_languages"].split(rest)
                 elif "Skills" in first:
@@ -160,7 +169,7 @@ def main():
                 elif "Languages" in first:
                     creature["languages"] = REGEX["feats_skills_languages"].split(rest)
                 elif "SQ" in first:
-                     creature["sq"] = REGEX["feats_skills_languages"].split(rest)
+                    creature["sq"] = REGEX["feats_skills_languages"].split(rest)
                 elif "Combat" in first:
                     temp = line.split(" ", 2)
                     gear = temp[-1].split(';')
@@ -173,10 +182,10 @@ def main():
             # print(json.dumps(creature))
             if "name" in creature:
                 file_name = creature["name"].strip().split()
-                with open(data_folder + "_".join(file_name).lower()+".json", "w") as file:
+                with open(data_folder + "_".join(file_name).lower() + ".json", "w") as file:
                     json.dump(creature, file, indent=4, sort_keys=True)
 
-        except :
+        except:
             print("Unexpected error:", sys.exc_info()[0])
             print("line: ", line)
             raise
@@ -208,7 +217,7 @@ def match_spells(line):
         for key in match.groupdict():
             spells[key] = match.groupdict()[key]
     return spells
-    
+
 
 if __name__ == "__main__":
     main()
