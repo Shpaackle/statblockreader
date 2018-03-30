@@ -1,6 +1,8 @@
 import math
-from .attributes import Attribute
+from collections import OrderedDict
 from enum import Enum
+
+from block_functions.attributes import Attribute
 
 PointBuy = {
     7: -4,
@@ -22,6 +24,7 @@ class AbilityScore(Attribute):
     def __init__(self, name=None, base=10):
         super().__init__(name=name)
         self.base = base
+        self.total = base
         self.modifier = math.floor((self.total - 10) / 2)
         self.point_buy = PointBuy[base]
 
@@ -41,10 +44,8 @@ class AbilityScores(Enum):
     INT = AbilityScore(name="Intelligence")
     WIS = AbilityScore(name="Wisdom")
     CHA = AbilityScore(name="Charisma")
+    EMPTY = AbilityScore(name="EMPTY")
 
-
-def get_ability_scores():
-    scores = {}
-    for score in AbilityScores:
-        scores[score.name] = score.value
-    return scores
+    @staticmethod
+    def get_ability_scores():
+        return OrderedDict([(score.name, score.value) for score in AbilityScores if score.name != "EMPTY"])

@@ -1,9 +1,6 @@
-from enum import Enum
-import math
-
-from block_functions import races as Races, classes as Classes, feats as Feats, bonuses as Bonuses
+from block_functions import races as Races, classes as Classes, bonuses as Bonuses
 from block_functions import saves as Saves, skills as Skills, attributes as Attributes
-from block_functions.ability_scores import AbilityScores, get_ability_scores
+from block_functions.ability_scores import AbilityScores
 
 
 """
@@ -199,13 +196,13 @@ class Creature:
         self.name = ""
         self.CR = -999
         self.XP = -999
-        self.race = Races.Race()
+        self.race = Races.Races.EMPTY
         self.classes = [Classes.BaseClass()]
         self.levels = [0]
         self.alignment = ""
         self.size = None
-        # race_type set by self.race
-        # race_subtype set by self.race
+        self.race_type = ""
+        self.race_subtype = ""
         self.initiative = Attributes.Attribute(name="Initiative")
         self.senses = self.race.senses
         self.skills = Skills.create_skills()
@@ -219,5 +216,16 @@ class Creature:
         self.melee_attacks = []
         self.ranged_attacks = []
         self.special_attacks = []
-        self.ability_scores = get_ability_scores()
-        self.base_attack_bonus = Attributes.Attribute(name="Base Attack Bonus")
+        self.ability_scores = AbilityScores.get_ability_scores()
+        self.base_attack_bonus = Bonuses.BaseAttackBonus()
+        self.combat_maneuver_bonus = Attributes.CMB()
+        self.combat_maneuver_defense = Attributes.CMD()
+        self.feats = []
+        self.languages = []
+        self.gear_combat = []
+        self.gear_other = []
+        self.stat_block = None
+
+    @staticmethod
+    def assign_race(self, race_name=Races.Races.GNOME):
+        self.race = race_name

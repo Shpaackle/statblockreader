@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class Attribute:
     def __init__(self, name, ability=None):
         self.name = name
@@ -18,28 +21,33 @@ class Attribute:
 
 
 class ArmorClass(Attribute):
-    def __init__(self, name="Armor Class", base=10):
-        super(ArmorClass, self).__init__(name, base)
+    def __init__(self, base=10):
+        from block_functions.ability_scores import AbilityScores
+        super(ArmorClass, self).__init__(name="Armor Class")
+        self.ability = AbilityScores.DEX.value
+        self.base = base
         self.flat = base
         self.touch = base
         self.total = base
         self.conditionals = []
         self.bonuses = {
-            "ability modifier": "AbilityScores.DEX.mod",
-            "armor": 0,
-            "dodge": 0,
-            "shield": 0,
-            "size": 0
+            "ability modifier": {"total": self.ability.modifier},
+            "armor": {"total": 0},
+            "dodge": {"total": 0},
+            "shield": {"total": 0},
+            "size": {"total": 0}
         }
 
-    @property
     def update_total(self):
-        return -1
+        self.total = self.base + sum([int(v["total"]) for v in self.bonuses.values()])
 
 
 class HitPoints(Attribute):
     def __init__(self):
         super(HitPoints, self).__init__(name="Hit Points")
+        self.hit_dice = []
+        from block_functions.ability_scores import AbilityScores
+        self.ability = AbilityScores.CON
 
 
 class Speed(Attribute):
@@ -47,11 +55,23 @@ class Speed(Attribute):
         super(Speed, self).__init__(name="Speed")
 
 
-class BaseAttackBonus(Attribute):
-    def __init__(self):
-        super(BaseAttackBonus, self).__init__(name="Base Attack Bonus")
-
-
 class CMB(Attribute):
     def __init__(self):
         super(CMB, self).__init__(name="Combat Maneuver Bonus")
+        from block_functions.ability_scores import AbilityScores
+        self.ability = AbilityScores.STR
+
+
+class CMD(Attribute):
+    def __init__(self):
+        super(CMD, self).__init__(name="Combat Maneuver Defense")
+
+
+class Attributes(Enum):
+    Initiative = Attribute(name="Initiative")
+    Speed = Speed()
+    CMB = CMB()
+    CMD = CMD()
+    HP = HitPoints()
+    AC = ArmorClass()
+    EMPTY = Attribute(name="EMPTY")

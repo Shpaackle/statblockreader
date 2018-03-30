@@ -1,4 +1,6 @@
-from block_functions import bonuses as BONUSES
+from enum import Enum
+
+from block_functions.bonuses import Bonuses
 
 
 class Race:
@@ -31,9 +33,14 @@ class Gnome(Race):
                 "BONUSES.Racial.add_bonus(modifies=AbilityScores.CHA, amount=2)"]
         }
         self.racial_traits = {
-            "Keen Senses": BONUSES.Racial,
-            "Obsessive": BONUSES.Racial,
-            "Illusion Resistance": BONUSES.Racial,
-            "Hatred": BONUSES.Untyped,
-            "Defensive Training": BONUSES.Dodge
+            "Keen Senses": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Keen Senses"),
+            "Obsessive": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Obsessive"),
+            "Illusion Resistance": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Illusion Resistance"),
+            "Hatred": Bonuses.create_bonus(bonus_type=Bonuses.Untyped, source="Hatred"),
+            "Defensive Training": Bonuses.create_bonus(bonus_type=Bonuses.Dodge, source="Defensive Training")
         }
+
+
+class Races(Enum):
+    GNOME = Gnome()
+    EMPTY = Race()

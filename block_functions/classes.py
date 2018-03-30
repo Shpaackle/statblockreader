@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class BaseClass:
     def __init__(self, name=None, hit_die=None, skill_pts=None, saves=(0, 0, 0),
                  class_skills=None,
@@ -14,3 +17,8 @@ class BaseClass:
         self.level_progression = level_progression
         self.class_level = 0
         self.max_level = max_level
+
+
+class Classes(Enum):
+	FIGHTER = BaseClass(name="Fighter")
+	BARD = BaseClass(name="Bard")

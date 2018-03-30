@@ -1,11 +1,9 @@
-import os
 import json
-import re
 import math
 import pprint
+import re
 
 from db import connect_to_database as connect_db
-from testing.model import Skill as DatabaseSkill
 
 
 class Attribute:
@@ -364,6 +362,12 @@ gnome = {
         "defensive training": {}
     }
 }
+
+
+def iterate_block():
+    # Initialize iteration of block
+
+    ...
 
 
 def main():
