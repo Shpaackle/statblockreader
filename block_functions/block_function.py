@@ -1,8 +1,3 @@
-from block_functions import races as Races, classes as Classes, bonuses as Bonuses
-from block_functions import saves as Saves, skills as Skills, attributes as Attributes
-from block_functions.ability_scores import AbilityScores
-
-
 """
     # basic class for things like
     #   Strength, Fortitude, Armor Class
@@ -153,7 +148,7 @@ from block_functions.ability_scores import AbilityScores
             self.max_level = max_level
     
     
-    class Classes(Enum):
+    class CLASSES(Enum):
         FIGHTER = BaseClass(name="Fighter", hit_die=10, skill_pts=2, saves=[Saves.GOOD, Saves.POOR, Saves.POOR])
     
     
@@ -185,47 +180,7 @@ from block_functions.ability_scores import AbilityScores
             }
     
     
-    class Races(Enum):
+    class RACES(Enum):
     GNOME = Race(name="gnome")
 
 """
-
-
-class Creature:
-    def __init__(self):
-        self.name = ""
-        self.CR = -999
-        self.XP = -999
-        self.race = Races.Races.EMPTY
-        self.classes = [Classes.BaseClass()]
-        self.levels = [0]
-        self.alignment = ""
-        self.size = None
-        self.race_type = ""
-        self.race_subtype = ""
-        self.initiative = Attributes.Attribute(name="Initiative")
-        self.senses = self.race.senses
-        self.skills = Skills.create_skills()
-        self.armor_class = Attributes.ArmorClass()
-        self.hit_points = Attributes.HitPoints()
-        self.fort_save = Saves.Save(name="Fortitude")
-        self.ref_save = Saves.Save(name="Reflex")
-        self.will_save = Saves.Save(name="Will")
-        self.defensive_abilities = []
-        self.speed = Attributes.Speed()
-        self.melee_attacks = []
-        self.ranged_attacks = []
-        self.special_attacks = []
-        self.ability_scores = AbilityScores.get_ability_scores()
-        self.base_attack_bonus = Bonuses.BaseAttackBonus()
-        self.combat_maneuver_bonus = Attributes.CMB()
-        self.combat_maneuver_defense = Attributes.CMD()
-        self.feats = []
-        self.languages = []
-        self.gear_combat = []
-        self.gear_other = []
-        self.stat_block = None
-
-    @staticmethod
-    def assign_race(self, race_name=Races.Races.GNOME):
-        self.race = race_name

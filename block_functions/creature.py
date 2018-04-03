@@ -1,33 +1,33 @@
-from block_functions import races as Races
-from block_functions import saves as Saves
 from block_functions.ability_scores import AbilityScores
 from block_functions.attributes import Attributes
 from block_functions.bonuses import Bonuses
+from block_functions.races import RACES
+from block_functions.saves import Saves
 from block_functions.skills import Skills
 
 
 class Creature:
-    def __init__(self):
-        self.name = ""
-        self.CR = -999
-        self.XP = -999
-        self.race = Races.Races.EMPTY.value
+    def __init__(self, **kwargs):
+        self.name = kwargs.get("name", "")
+        self.CR = kwargs.get("CR", -999)
+        self.XP = kwargs.get("XP", -999)
+        self.race = kwargs.get("race", RACES.EMPTY.value)  # assign empty race class to creature
         self.classes = []
         self.levels = []
-        self.alignment = ""
-        self.size = self.race.size
-        self.race_type = self.race.race_type
-        self.race_subtype = self.race.race_subtype
-        self.initiative = Attributes.Initiative.value
-        self.senses = self.race.senses
-        self.skills = Skills.create_skills()
+        self.alignment = kwargs.get("alignment", "")
+        self.size = self.race.size  # set size based on race
+        self.race_type = self.race.race_type  # set race_type based on race
+        self.race_subtype = self.race.race_subtype  # set race_subtype based on race
+        self.initiative = Attributes.INIT.value  # create initiative attribute by enum
+        self.senses = self.race.senses  # set senses based on race
+        self.skills = Skills.create_skills()  # create empty skills for creature
         self.armor_class = Attributes.AC.value
         self.hit_points = Attributes.HP.value
-        self.fort_save = Saves.Save(name="Fortitude")
-        self.ref_save = Saves.Save(name="Reflex")
-        self.will_save = Saves.Save(name="Will")
+        self.fort_save = Saves.FORT.value
+        self.ref_save = Saves.REF.value
+        self.will_save = Saves.WILL.value
         self.defensive_abilities = []
-        self.speed = Attributes.Speed.value
+        self.speed = Attributes.SPD.value
         self.melee_attacks = []
         self.ranged_attacks = []
         self.special_attacks = []
@@ -42,9 +42,13 @@ class Creature:
         self.stat_block = None
 
     @staticmethod
-    def assign_race(self, race_name=Races.Races.GNOME):
+    def assign_race(self, race_name=RACES.GNOME):
         self.race = race_name
 
+
+def create_from_block(block):
+    creature = Creature(stat_block=block)
+    return creature
 
 """
 get race by name from database

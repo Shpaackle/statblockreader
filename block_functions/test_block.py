@@ -1,6 +1,6 @@
 import json
 
-from creature import Creature
+from block_functions.creature import Creature
 
 
 def main():

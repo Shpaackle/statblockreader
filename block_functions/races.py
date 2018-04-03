@@ -41,6 +41,6 @@ class Gnome(Race):
         }
 
 
-class Races(Enum):
+class RACES(Enum):
     GNOME = Gnome()
     EMPTY = Race()

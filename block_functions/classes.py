@@ -19,6 +19,6 @@ class BaseClass:
         self.max_level = max_level
 
 
-class Classes(Enum):
-	FIGHTER = BaseClass(name="Fighter")
-	BARD = BaseClass(name="Bard")
+class CLASSES(Enum):
+    FIGHTER = BaseClass(name="Fighter")
+    BARD = BaseClass(name="Bard")

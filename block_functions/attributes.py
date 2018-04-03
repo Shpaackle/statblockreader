@@ -17,6 +17,7 @@ class Attribute:
         :param bonus_type: array of type of bonus to search for, including all
         :return: dictionary with type(s)
         """
+
         ...
 
 
@@ -39,7 +40,8 @@ class ArmorClass(Attribute):
         }
 
     def update_total(self):
-        self.total = self.base + sum([int(v["total"]) for v in self.bonuses.values()])
+        bonuses_values = [int(v["total"]) for v in self.bonuses.values()]
+        self.total = self.base + sum(bonuses_values)
 
 
 class HitPoints(Attribute):
@@ -68,8 +70,8 @@ class CMD(Attribute):
 
 
 class Attributes(Enum):
-    Initiative = Attribute(name="Initiative")
-    Speed = Speed()
+    INIT = Attribute(name="Initiative")
+    SPD = Speed()
     CMB = CMB()
     CMD = CMD()
     HP = HitPoints()

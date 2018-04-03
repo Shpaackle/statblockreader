@@ -22,14 +22,14 @@ class Knowledges(Enum):
 
 
 class Skills(Enum):
-    Perception = Skill(name="Perception", ability=AbilityScores.WIS)
+    Perception = "Perception"
     Knowledge = {
         "arcana": Knowledges.arcana
     }
 
     @staticmethod
     def create_skills():
-        skill_dict = {}
+        skill_dict = OrderedDict()
         for skill in Skills:
-            skill_dict[skill.name] = skill.value
-        return OrderedDict([])
+            skill_dict[skill] = Skill(skill.value)
+        return skill_dict
