@@ -1,6 +1,4 @@
 import math
-from collections import OrderedDict
-from enum import Enum
 
 from block_functions.attributes import Attribute
 
@@ -41,23 +39,3 @@ class AbilityScore(Attribute):
         if args:
             for arg in args:
                 print(arg)
-
-
-# enum to hold ability scores
-class AbilityScores(Enum):
-    STR = "Strength"
-    DEX = "Dexterity"
-    CON = "Constitution"
-    INT = "Intelligence"
-    WIS = "Wisdom"
-    CHA = "Charisma"
-    EMPTY = "EMPTY"
-
-    # creates ability scores for object
-    @staticmethod
-    def get_ability_scores():
-        score_dict = OrderedDict()
-        for score in AbilityScores:
-            if score.name != "EMPTY":
-                score_dict[score] = AbilityScore(name=score.value)
-        return score_dict

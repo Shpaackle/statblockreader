@@ -1,8 +1,3 @@
-from enum import Enum
-
-from block_functions.bonuses import Bonuses
-
-
 class Race:
     def __init__(self):
         self.name = ""
@@ -33,14 +28,36 @@ class Gnome(Race):
                 "BONUSES.Racial.add_bonus(modifies=AbilityScores.CHA, amount=2)"]
         }
         self.racial_traits = {
-            "Keen Senses": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Keen Senses"),
-            "Obsessive": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Obsessive"),
-            "Illusion Resistance": Bonuses.create_bonus(bonus_type=Bonuses.Racial, source="Illusion Resistance"),
-            "Hatred": Bonuses.create_bonus(bonus_type=Bonuses.Untyped, source="Hatred"),
-            "Defensive Training": Bonuses.create_bonus(bonus_type=Bonuses.Dodge, source="Defensive Training")
+			"ability score": [
+                [bonus_type=Bonuses.Racial, modifies=AbilityScores.STR, amount=-2,],
+                [bonus_type=Bonuses.Racial, modifies=AbilityScores.CON, amount=2,],
+                [bonus_type=Bonuses.Racial, modifies=AbilityScores.CHA, amount=2,],
+				],
+            "Keen Senses": [bonus_type=Bonuses.Racial, source="Keen Senses"]
+            "Obsessive": [bonus_type=Bonuses.Racial, source="Obsessive"],
+            "Illusion Resistance": [bonus_type=Bonuses.Racial, source="Illusion Resistance"],
+            "Hatred": [bonus_type=Bonuses.Untyped, source="Hatred"],
+            "Defensive Training": [bonus_type=Bonuses.Dodge, source="Defensive Training"]
         }
 
 
-class RACES(Enum):
+def assign_race_bonuses(creature):
+	...
+
+def assign_racial_traits(creature):
+	for trait_name, trait_value in creature.race.racial_traits.items():
+		if trait_name == "ability score":
+			for bonus in trait_value:
+				creature.bonuses.append(
+					Bonuses.new_bonus(bonus_type=bonus[0],
+									  **kwargs=[bonus[1:] + source=trait_name],
+									  )
+				)
+		else:
+			creature.bonuses.append(Bonuses.new_bonus(bonus_type=bonus[0],
+													  **kwargs=[bonus[1:] + source=trait_name]
+
+
+class Races(Enum):
     GNOME = Gnome()
     EMPTY = Race()

@@ -1,31 +1,34 @@
-from enum import Enum
-
-
 class Attribute:
-    def __init__(self, name, ability=None):
+    def __init__(
+            self,
+            name="",
+            ability=None,
+    ):
         self.name = name
+        self.ability = ability
         self.base = -999
         self.bonuses = {"total": 0}  # assign total value to 0 for all bonuses
         self.total = self.base + self.bonuses["total"]
-        self.ability = ability
         self.conditions = []
 
-    @staticmethod
     def get_highest_bonus(self, bonus_type):
         """
         Find highest bonus of a particular type
         :param bonus_type: array of type of bonus to search for, including all
         :return: dictionary with type(s)
         """
-
         ...
+
+    def __repr__(self):
+        return (f"{self.__class__.__name__}("
+                f"{self.name}, {self.total}")
 
 
 class ArmorClass(Attribute):
-    def __init__(self, base=10):
-        from block_functions.ability_scores import AbilityScores
+    def __init__(self, base=10,):
+        from block_functions.enums import AbilityScores
         super(ArmorClass, self).__init__(name="Armor Class")
-        self.ability = AbilityScores.DEX.value
+        self.ability = AbilityScores.DEX
         self.base = base
         self.flat = base
         self.touch = base
@@ -48,7 +51,7 @@ class HitPoints(Attribute):
     def __init__(self):
         super(HitPoints, self).__init__(name="Hit Points")
         self.hit_dice = []
-        from block_functions.ability_scores import AbilityScores
+        from block_functions.enums import AbilityScores
         self.ability = AbilityScores.CON
 
 
@@ -60,20 +63,10 @@ class Speed(Attribute):
 class CMB(Attribute):
     def __init__(self):
         super(CMB, self).__init__(name="Combat Maneuver Bonus")
-        from block_functions.ability_scores import AbilityScores
+        from block_functions.enums import AbilityScores
         self.ability = AbilityScores.STR
 
 
 class CMD(Attribute):
     def __init__(self):
         super(CMD, self).__init__(name="Combat Maneuver Defense")
-
-
-class Attributes(Enum):
-    INIT = Attribute(name="Initiative")
-    SPD = Speed()
-    CMB = CMB()
-    CMD = CMD()
-    HP = HitPoints()
-    AC = ArmorClass()
-    EMPTY = Attribute(name="EMPTY")

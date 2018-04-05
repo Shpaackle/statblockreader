@@ -11,7 +11,9 @@ def main():
     character = Creature()
     character.stat_block = block
 
-    print(len(block))
+    print(len(character.stat_block))
+
+	creature.assign_race()
 
 
 if __name__ == '__main__':
