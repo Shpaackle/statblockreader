@@ -45,19 +45,19 @@ class Creature:
         self.size = race_name.size
         self.speed.base = race_name.speed_base
         self.senses.append(race_name.senses)
-        Races.assign_racial_traits(self)
+        RACES.assign_racial_traits(self)
 
     _subtype_dict = {
-        "knowledge": Skills.Knowledges[split_skill["subtype"]],
-        "profession": Skills.Professions[split_skill["subtype"]],
-        "craft": Skills.Crafts[split_skill["subtype"]],
+        "knowledge": SKILLS.Knowledges[split_skill["subtype"]],
+        "profession": SKILLS.Professions[split_skill["subtype"]],
+        "craft": SKILLS.Crafts[split_skill["subtype"]],
         }
 
     def get_skills_from_block(self):
-        block_list = self.block["skills"]
+        block_list = self.stat_block["skills"]
         for skill in block_list:
-            split_skill = Skills.parse_block_skill(skill)
-            skill_key = _subtype_dict.get(split_skill["subtype"], Skills[split_skill["name"]])
+            split_skill = SKILLS.parse_block_skill(skill)
+            skill_key = self._subtype_dict.get(split_skill["subtype"], SKILLS[split_skill["name"]])
             self.skills[skill_key].total = skill_key.total
             self.skills[skill_key].extras = skill_key.extras
 

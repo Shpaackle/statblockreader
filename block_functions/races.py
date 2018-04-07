@@ -1,3 +1,6 @@
+from block_functions.enums import BONUSES
+
+
 class Race:
     def __init__(self):
         self.name = ""
@@ -25,39 +28,31 @@ class Gnome(Race):
             "ability score": [
                 "BONUSES.Racial.add_bonus(modifies=AbilityScores.STR, amount=-2)",
                 "BONUSES.Racial.add_bonus(modifies=AbilityScores.CON, amount=2)",
-                "BONUSES.Racial.add_bonus(modifies=AbilityScores.CHA, amount=2)"]
+                "BONUSES.Racial.add_bonus(modifies=AbilityScores.CHA, amount=2)",
+            ]
         }
-        self.racial_traits = {
-			"ability score": [
-                [bonus_type=Bonuses.Racial, modifies=AbilityScores.STR, amount=-2,],
-                [bonus_type=Bonuses.Racial, modifies=AbilityScores.CON, amount=2,],
-                [bonus_type=Bonuses.Racial, modifies=AbilityScores.CHA, amount=2,],
-				],
-            "Keen Senses": [bonus_type=Bonuses.Racial, source="Keen Senses"]
-            "Obsessive": [bonus_type=Bonuses.Racial, source="Obsessive"],
-            "Illusion Resistance": [bonus_type=Bonuses.Racial, source="Illusion Resistance"],
-            "Hatred": [bonus_type=Bonuses.Untyped, source="Hatred"],
-            "Defensive Training": [bonus_type=Bonuses.Dodge, source="Defensive Training"]
-        }
+        self.racial_traits["ability score"] = [
+            ("bonus_type=BONUSES.Racial, modifies=AbilityScores.STR, amount=-2,"),
+            ("bonus_type=BONUSES.Racial, modifies=AbilityScores.CON, amount=2,"),
+            ("bonus_type=BONUSES.Racial, modifies=AbilityScores.CHA, amount=2,"),
+        ]
+        self.racial_traits["Keen Senses"] = {"bonus_type": BONUSES.Racial, "source": "Keen Senses"}
+        self.racial_traits["Obsessive"] = {"bonus_type": BONUSES.Racial, "source": "Obsessive"}
+        self.racial_traits["Illusion Resistance"] = {"bonus_type": BONUSES.Racial, "source": "Illusion Resistance"}
+        self.racial_traits["Hatred"] = {"bonus_type": BONUSES.Untyped, "source": "Hatred"}
+        self.racial_traits["Defensive Training"] = {"bonus_type": BONUSES.Dodge, "source": "Defensive Training"}
 
 
 def assign_race_bonuses(creature):
-	...
+    ...
+
 
 def assign_racial_traits(creature):
-	for trait_name, trait_value in creature.race.racial_traits.items():
-		if trait_name == "ability score":
-			for bonus in trait_value:
-				creature.bonuses.append(
-					Bonuses.new_bonus(bonus_type=bonus[0],
-									  **kwargs=[bonus[1:] + source=trait_name],
-									  )
-				)
-		else:
-			creature.bonuses.append(Bonuses.new_bonus(bonus_type=bonus[0],
-													  **kwargs=[bonus[1:] + source=trait_name]
-
-
-class Races(Enum):
-    GNOME = Gnome()
-    EMPTY = Race()
+    for trait_name, trait_value in creature.race.racial_traits.items():
+        if trait_name == "ability score":
+            for bonus in trait_value:
+                # creature.bonuses.append(BONUSES.new_bonus(bonus[0], **kwargs=[bonus[1:] + source=trait_name],))
+                ...
+        else:
+            # creature.bonuses.append(BONUSES.new_bonus(bonus[0], **kwargs=[bonus[1:] + source=trait_name]
+            ...

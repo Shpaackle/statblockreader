@@ -13,7 +13,7 @@ def main():
 
     print(len(character.stat_block))
 
-	creature.assign_race()
+    character.assign_race()
 
 
 if __name__ == '__main__':
