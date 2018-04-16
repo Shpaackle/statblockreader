@@ -32,7 +32,6 @@ class AbilityScore(Attribute):
     def _modifier(self):
         return math.floor((self.total - 10) / 2)
 
-    @staticmethod
     def add_bonus(self, args=None):
         if self.name:
             ...

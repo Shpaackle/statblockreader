@@ -1,3 +1,6 @@
+import math
+
+
 class Attribute:
     def __init__(
             self,
@@ -24,11 +27,48 @@ class Attribute:
                 f"{self.name}, {self.total}")
 
 
+# Dictionary to hold point buy values
+PointBuy = {
+    7: -4,
+    8: -2,
+    9: -1,
+    10: 0,
+    11: 1,
+    12: 2,
+    13: 3,
+    14: 5,
+    15: 7,
+    16: 10,
+    17: 13,
+    18: 17
+}
+
+
+# subclass of Attribute
+# Used primarily for ability scores
+class AbilityScore(Attribute):
+    def __init__(self, name=None, base=10):
+        super().__init__(name=name)
+        self.base = base
+        self.total = base
+        self.modifier = self._modifier()
+        self.point_buy = PointBuy[base]
+
+    def _modifier(self):
+        return math.floor((self.total - 10) / 2)
+
+    def add_bonus(self, args=None):
+        if self.name:
+            ...
+        if args:
+            for arg in args:
+                print(arg)
+
+
 class ArmorClass(Attribute):
-    def __init__(self, base=10,):
-        from block_functions.enums import AbilityScores
+    def __init__(self, ability, base=10,):
         super(ArmorClass, self).__init__(name="Armor Class")
-        self.ability = AbilityScores.DEX
+        self.ability = ability.value
         self.base = base
         self.flat = base
         self.touch = base
@@ -48,11 +88,10 @@ class ArmorClass(Attribute):
 
 
 class HitPoints(Attribute):
-    def __init__(self):
+    def __init__(self, ability,):
         super(HitPoints, self).__init__(name="Hit Points")
         self.hit_dice = []
-        from block_functions.enums import AbilityScores
-        self.ability = AbilityScores.CON
+        self.ability = ability.value
 
 
 class Speed(Attribute):
@@ -61,10 +100,9 @@ class Speed(Attribute):
 
 
 class CMB(Attribute):
-    def __init__(self):
+    def __init__(self, ability,):
         super(CMB, self).__init__(name="Combat Maneuver Bonus")
-        from block_functions.enums import AbilityScores
-        self.ability = AbilityScores.STR
+        self.ability = ability.value
 
 
 class CMD(Attribute):

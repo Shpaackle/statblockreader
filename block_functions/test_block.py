@@ -1,6 +1,8 @@
 import json
+import pprint
 
-from block_functions.creature import Creature
+# from block_functions.creature import Creature
+from block_functions.character import Character
 
 
 def main():
@@ -8,12 +10,15 @@ def main():
     with open(file_name) as f:
         block = json.load(f)
 
-    character = Creature()
-    character.stat_block = block
+    character = Character(block=block)
+    print(block["race"])
+    character.assign_race(block["race"].upper())
 
-    print(len(character.stat_block))
-
-    character.assign_race()
+    print(len(character.block))
+    assert character.alignment == block["alignment"]
+    pprint.pprint(f'race: {type(character.race)}')
+    assert character.race.name == "gnome"
+    print("Finished")
 
 
 if __name__ == '__main__':

@@ -2,14 +2,14 @@ from block_functions.enums import Attributes, SKILLS, SAVES, AbilityScores, RACE
 
 
 class Creature:
-    def __init__(self, **kwargs):
-        self.name = kwargs.get("name", "")
-        self.CR = kwargs.get("CR", -999)
-        self.XP = kwargs.get("XP", -999)
-        self.race = kwargs.get("race", RACES.EMPTY.value)  # assign empty race class to creature
+    def __init__(self):
+        self.name = "name"
+        self.CR = "CR"
+        self.XP = "XP"
+        self.race = RACES.EMPTY.value  # assign empty race class to creature
         self.classes = []
         self.levels = []
-        self.alignment = kwargs.get("alignment", "")
+        self.alignment = "alignment"
         self.size = self.race.size  # set size based on race
         self.race_type = self.race.race_type  # set race_type based on race
         self.race_subtype = self.race.race_subtype  # set race_subtype based on race
@@ -37,7 +37,6 @@ class Creature:
         self.stat_block = None
         self.bonuses = []
 
-    @staticmethod
     def assign_race(self, race_name=RACES.GNOME):
         self.race = race_name
         self.race_type = race_name.race_type
