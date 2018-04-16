@@ -16,8 +16,7 @@ class Race:
         if kwargs:
             print(kwargs)
             for k, v in kwargs.items():
-                self.k = v
-                print(f"self.{repr(k)} = {self.k}")
+                setattr(self, k, v)
 
     def assign_traits(self, creature):
         for trait_name, trait_value in creature.race.racial_traits.items():

@@ -16,7 +16,7 @@ def main():
 
     print(len(character.block))
     assert character.alignment == block["alignment"]
-    pprint.pprint(f'race: {type(character.race)}')
+    pprint.pprint(f"race: {type(character.race)}")
     assert character.race.name == "gnome"
     print("Finished")
 
