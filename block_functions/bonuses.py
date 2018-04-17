@@ -1,6 +1,10 @@
 class Bonus:
+    """
+    Represents basic bonus class
+    """
     def __init__(
             self,
+            name=None,
             source=None,
             modifies=None,
             amount=-999,
@@ -9,6 +13,7 @@ class Bonus:
             stackable=False,
             is_penalty=False,
     ):
+        self.name = name
         self.source = source
         self.modifies = modifies
         self.amount = amount
@@ -23,6 +28,7 @@ class Bonus:
 
 
 class BaseAttackBonus(Bonus):
+    # TODO: Move this to attributes.py
     def __init__(self):
         super(BaseAttackBonus, self).__init__(source="Base Attack Bonus")
 

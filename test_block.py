@@ -1,7 +1,5 @@
 import json
-import pprint
 
-# from block_functions.creature import Creature
 from block_functions.character import Character
 
 
@@ -11,13 +9,15 @@ def main():
         block = json.load(f)
 
     character = Character(block=block)
-    print(block["race"])
     character.assign_race(block["race"].upper())
 
-    print(len(character.block))
     assert character.alignment == block["alignment"]
-    pprint.pprint(f"race: {type(character.race)}")
     assert character.race.name == "gnome"
+    assert character.saves["FORT"].total == 0
+    assert character.skills["Acrobatics"].armor_check is True
+    assert character.scores["STR"].base == 10
+    assert character.HP.ability is character.scores["CON"]
+
     print("Finished")
 
 

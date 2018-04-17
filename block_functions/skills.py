@@ -1,12 +1,27 @@
+from collections import OrderedDict
 from enum import Enum
 
 from block_functions.attributes import Attribute
 from block_functions.enums import AbilityScores
 
 
+class SKILLS(Enum):
+    Acrobatics = {"name": "Acrobatics", "ability": "DEX", "armor_check": True}
+    Perception = {"name": "Perception", "ability": "WIS", }
+    Knowledge = {}
+
+    @staticmethod
+    def create_skills(scores):
+        skill_dict = OrderedDict()
+        for skill in SKILLS:
+            skill_dict[skill.name] = Skill(scores, **skill.value)
+        return skill_dict
+
+
 class Skill(Attribute):
     def __init__(self, name=None, ability=AbilityScores.EMPTY):
-        super(Attribute, self).__init__(name, ability)
+        super(Attribute, self).__init__(name,)
+        self.ability = ability
         self.ranks = [0]
         self.class_skill = False
         self.armor_check = False
