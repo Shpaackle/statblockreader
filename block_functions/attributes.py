@@ -70,9 +70,9 @@ class AbilityScore(Attribute):
 
 
 class ArmorClass(Attribute):
-    def __init__(self, ability, base=10,):
+    def __init__(self, ability, base=10, block=dict):
         super(ArmorClass, self).__init__(name="Armor Class", base=base)
-        self.ability = ability.value
+        self.ability = ability
         self.flat = base
         self.touch = base
         self.total = base
@@ -83,6 +83,7 @@ class ArmorClass(Attribute):
             "shield": {"total": 0},
             "size": {"total": 0}
         }
+        self.block = block
 
     def update_total(self):
         bonuses_values = [int(v["total"]) for v in self.bonuses.values()]
@@ -90,7 +91,7 @@ class ArmorClass(Attribute):
 
 
 class HitPoints(Attribute):
-    def __init__(self, ability, block=None):
+    def __init__(self, ability, block=None,):
         super(HitPoints, self).__init__(name="Hit Points",)
         self.hit_dice = []
         self.ability = ability
@@ -98,8 +99,9 @@ class HitPoints(Attribute):
 
 
 class Speed(Attribute):
-    def __init__(self):
+    def __init__(self, block):
         super(Speed, self).__init__(name="Speed",)
+        self.block = int(block)
 
 
 class CMB(Attribute):
@@ -176,13 +178,13 @@ class AbilityScores(Enum):
 
 
 class Attributes(Enum):
-    AC = ArmorClass(ability=AbilityScores.DEX)
+    AC = ArmorClass
     BAB = BaseAttackBonus(ability=AbilityScores.STR)
     CMB = CMB(ability=AbilityScores.STR)
     CMD = CMD()
     HP = HitPoints
     INIT = Attribute(name="Initiative")
-    SPD = Speed()
+    SPD = Speed
     EMPTY = Attribute(name="EMPTY")
 
     def create_new(self):

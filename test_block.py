@@ -1,4 +1,5 @@
 import json
+import pprint
 
 from block_functions.character import Character
 
@@ -17,6 +18,10 @@ def main():
     assert character.skills["Acrobatics"].armor_check is True
     assert character.scores["STR"].base == 10
     assert character.HP.ability is character.scores["CON"]
+    assert character.speed.block == 20
+    assert character.AC.ability is character.scores["DEX"]
+
+    pprint.pprint(character.bonuses)
 
     print("Finished")
 

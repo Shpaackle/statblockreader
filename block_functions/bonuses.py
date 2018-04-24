@@ -1,27 +1,32 @@
+from enum import Enum
+
+
 class Bonus:
     """
     Represents basic bonus class
     """
     def __init__(
             self,
+            bonus_type=None,
             name=None,
             source=None,
             modifies=None,
             amount=-999,
-            duration=None,
-            bonus_type=None,
+            active=False,
             stackable=False,
-            is_penalty=False,
+            duration=None,
+            penalty=False,
     ):
+        self.bonus_type = bonus_type
         self.name = name
         self.source = source
         self.modifies = modifies
         self.amount = amount
         self.duration = duration
-        self.bonus_type = bonus_type
         self.stackable = stackable
-        self.is_penalty = is_penalty or (amount <= 0)
-        self.active = False
+        self.penalty = penalty or (amount <= 0)
+        self.active = active
+        self.conditions = []
 
     def change_active_state(self):
         self.active = not self.active
@@ -46,3 +51,22 @@ class DodgeBonus(Bonus):
 class UntypedBonus(Bonus):
     def __init__(self, source=None):
         super(UntypedBonus, self).__init__(bonus_type="Untyped", source=source, stackable=True)
+
+
+class BONUSES(Enum):
+    BAB = BaseAttackBonus()
+    racial = RacialBonus()
+    dodge = DodgeBonus()
+    untyped = UntypedBonus()
+    EMPTY = Bonus()
+
+    @staticmethod
+    def create_bonus(bonus_type="EMPTY", **kwargs):
+
+        bonus = BONUSES[bonus_type].value
+
+        for k, v in kwargs.items():
+            bonus.__setattr__(k, v)
+
+
+        return bonus
