@@ -43,8 +43,7 @@ class Attribute:
         ...
 
     def __repr__(self):
-        return (f"{self.__class__.__name__}("
-                f"{self.name}, {self.total}")
+        return f"{self.__class__.__name__}({self.name}, {self.total})"
 
 
 class AbilityScore(Attribute):

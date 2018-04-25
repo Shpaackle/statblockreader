@@ -31,6 +31,9 @@ class Bonus:
     def change_active_state(self):
         self.active = not self.active
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.name}, {self.amount} {self.modifies})"
+
 
 class BaseAttackBonus(Bonus):
     # TODO: Move this to attributes.py
@@ -39,34 +42,27 @@ class BaseAttackBonus(Bonus):
 
 
 class RacialBonus(Bonus):
-    def __init__(self, source=None):
-        super(RacialBonus, self).__init__(bonus_type="Racial", source=source)
+    def __init__(self, source=None, **kwargs):
+        super(RacialBonus, self).__init__(bonus_type="Racial", source=source, **kwargs)
 
 
 class DodgeBonus(Bonus):
-    def __init__(self, source=None):
-        super(DodgeBonus, self).__init__(bonus_type="Dodge", source=source, stackable=True)
+    def __init__(self, source=None, **kwargs):
+        super(DodgeBonus, self).__init__(bonus_type="Dodge", source=source, stackable=True, **kwargs)
 
 
 class UntypedBonus(Bonus):
-    def __init__(self, source=None):
-        super(UntypedBonus, self).__init__(bonus_type="Untyped", source=source, stackable=True)
+    def __init__(self, source=None, **kwargs):
+        super(UntypedBonus, self).__init__(bonus_type="Untyped", source=source, stackable=True, **kwargs)
 
 
 class BONUSES(Enum):
-    BAB = BaseAttackBonus()
-    racial = RacialBonus()
-    dodge = DodgeBonus()
-    untyped = UntypedBonus()
-    EMPTY = Bonus()
+    BAB = BaseAttackBonus
+    racial = RacialBonus
+    dodge = DodgeBonus
+    untyped = UntypedBonus
+    EMPTY = Bonus
 
     @staticmethod
     def create_bonus(bonus_type="EMPTY", **kwargs):
-
-        bonus = BONUSES[bonus_type].value
-
-        for k, v in kwargs.items():
-            bonus.__setattr__(k, v)
-
-
-        return bonus
+        return BONUSES[bonus_type].value(**kwargs)
