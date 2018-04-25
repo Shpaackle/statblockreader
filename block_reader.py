@@ -1,11 +1,9 @@
 '''Statblock parser'''
-import pprint
-import os
-import sys
-import re
 import json
 import logging
-from data import bag_of_dicts
+import os
+import re
+import sys
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, format=" %(asctime)s -  %(levelname)s -  %(message)s")
@@ -44,7 +42,7 @@ REGEX = {
     "feats_skills_languages": re.compile(r',\s*(?![^()]*\))'),  # (" ?([^,]+)")
     "melee": re.compile("Melee (?P<melee>.+)"),
     "ranged": re.compile("Ranged (?P<ranged>.+)"),
-    "special_attacks": re.compile("Special Attack (?P<special_attacks>.+)"),
+    "special_attacks": re.compile("Special Attacks (?P<special_attacks>.+)"),
     "spell-like_abilities": re.compile(
         "Spell-Like Abilities \(CL (?P<spell_like_cl>[0-9]+)..; concentration (?P<spell_like_concentration>[-+0-9]+)\)"),
 

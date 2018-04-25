@@ -81,6 +81,7 @@
         "Perception +2",
         "Stealth +7"
     ],
+    "special_attacks": "+1 on attack rolls against goblinoid and reptilian humanoids",
     "speed": "20",
     "spells": {},
     "strength": "12",
