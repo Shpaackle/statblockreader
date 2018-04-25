@@ -39,28 +39,15 @@ class RACES(Enum):
         traits=(
             Trait("Keen Senses", "racial", "RACES.Gnome", Bonus("Perception", 2, True),
                   "description",),
-            Trait("Obsessive", "racial", "RACES.Gnome", Bonus("bonus", 0, True), "description",),
-            Trait("Illusion Resistance", "racial", "RACES.Gnome", Bonus("bonus", 0, True), "description",),
-            Trait("Hatred", "untyped", "RACES.Gnome", Bonus("bonus", 0, True), "description",),
-            Trait("Defensive Training", "dodge", "RACES.Gnome", Bonus("bonus", 0, True), "description",),
+            Trait("Obsessive", "racial", "RACES.Gnome", Bonus("Craft/Profession", 2, True), "description",),
+            Trait("Illusion Resistance", "racial", "RACES.Gnome", Bonus("save_modifiers", 2, True), "description",),
+            Trait("Hatred", "untyped", "RACES.Gnome", Bonus("special_attacks", 1, True), "description",),
+            Trait("Defensive Training", "dodge", "RACES.Gnome", Bonus("defensive_abilities", 4, True), "description",),
             Trait("STR", "racial", "RACES.Gnome", Bonus("STR", -2, True), "description",),
             Trait("CON", "racial", "RACES.Gnome", Bonus("CON", 2, True), "description", ),
             Trait("CHA", "racial", "RACES.Gnome", Bonus("CHA", 2, True), "description", ),
         ),
     )
-
-    @staticmethod
-    def bonus_kwargs(trait):
-        b_type = "Untyped"
-        bonus = {
-            "name": "",
-            "source": "",
-            "modifies": "",
-            "amount": "",
-            "active": True,
-            "stackable": False,
-        }
-        return b_type, bonus
 
 
 class Gnome(Race):
@@ -91,19 +78,3 @@ class Gnome(Race):
             "Illusion Resistance": {"bonus_type": "BONUSES.Racial", "source": "Illusion Resistance"},
             "Hatred": {"bonus_type": "BONUSES.Untyped", "source": "Hatred"},
             "Defensive Training": {"bonus_type": "BONUSES.Dodge", "source": "Defensive Training"}}
-
-
-def assign_racial_traits(creature):
-    """
-    for trait_name, trait_value in creature.race.racial_traits.items():
-        if trait_name == "ability score":
-            for bonus in trait_value:
-                new_bonus = BONUSES.create_bonus(bonus["type"], bonus["modifies"])
-                # creature.bonuses.append(BONUSES.new_bonus(bonus[0], **kwargs=[bonus[1:] + source=trait_name],))
-                ...
-        else:
-            # creature.bonuses.append(BONUSES.new_bonus(bonus[0], **kwargs=[bonus[1:] + source=trait_name]
-            ...
-    """
-
-    ...
