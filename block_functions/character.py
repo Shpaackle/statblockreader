@@ -47,3 +47,18 @@ class Character:
                 active=trait.bonus.active,
             )
             self.bonuses[trait.type].append(bonus)
+            
+            
+    def assign_class(self, names: list):
+		"""
+		:param name: name of class from stat block, used as reference for CLASSES enum
+		"""
+		classes = {}
+		for name in names:
+			classes[name.upper()] = CLASSES[name.upper()]
+			
+		self.classes = classes
+	
+	
+	def assign_levels(self, classes: list, ):
+		...
