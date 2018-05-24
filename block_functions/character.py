@@ -3,6 +3,7 @@ from typing import Dict
 
 from block_functions.attributes import AbilityScores, SAVES, Attributes, SKILLS
 from block_functions.bonuses import BONUSES
+from block_functions.classes import CLASSES
 from block_functions.races import RACES
 
 
@@ -47,18 +48,16 @@ class Character:
                 active=trait.bonus.active,
             )
             self.bonuses[trait.type].append(bonus)
-            
-            
+
     def assign_class(self, names: list):
-		"""
-		:param name: name of class from stat block, used as reference for CLASSES enum
-		"""
-		classes = {}
-		for name in names:
-			classes[name.upper()] = CLASSES[name.upper()]
-			
-		self.classes = classes
-	
-	
-	def assign_levels(self, classes: list, ):
-		...
+        """
+        :param name: name of class from stat block, used as reference for CLASSES enum
+        """
+        classes = {}
+        for name in names:
+            classes[name.upper()] = CLASSES[name.upper()]
+
+        self.classes = classes
+
+    def assign_levels(self, classes: list, ):
+        ...

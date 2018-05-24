@@ -27,13 +27,14 @@ class BaseClass:
         self.class_level = 0
         self.max_level = max_level
 
-class Classes(Enum):
-	FIGHTER =  BaseClass(name="Fighter", hit_die=10, skill_pts=2, saves=(2, 0, 0), class_skills=["Handle Animal", "Swim"], base_attack=1)
-	CLERIC = "Cleric"
-	ROGUE = "Rogue"
-	BARD = "Bard"
-	RANGER = "Ranger"
-	WIZARD = "Wizard"
-	SORCERER = "Sorcerer"
-	BARBARIAN = "Barbarian"
-	PALADIN = "Paladin"
+
+class CLASSES(Enum):
+    FIGHTER = BaseClass(name="Fighter", hit_die=10, skill_pts=2, saves=(2, 0, 0), class_skills=["Handle Animal", "Swim"], base_attack=1)
+    CLERIC = "Cleric"
+    ROGUE = "Rogue"
+    BARD = "Bard"
+    RANGER = "Ranger"
+    WIZARD = "Wizard"
+    SORCERER = "Sorcerer"
+    BARBARIAN = "Barbarian"
+    PALADIN = "Paladin"

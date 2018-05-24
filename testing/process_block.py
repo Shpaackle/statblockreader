@@ -3,7 +3,7 @@ import math
 import pprint
 import re
 
-from db import connect_to_database as connect_db
+from .db import connect_to_database as connect_db
 
 
 class Attribute:
@@ -101,7 +101,7 @@ class Race:
 
 
 class Bonus:
-    def __init__(self, source="Breastplate", modifies="AC", bonus_type="armor", amount=6, duration=-1,
+    def __init__(self, source="Breastplate", modifies="AC", bonus_type="armor", amount: any =6, duration=-1,
                  is_stackable=False):
         self.source = source
         self.modifies = modifies
