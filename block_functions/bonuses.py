@@ -36,7 +36,7 @@ class Bonus:
 
 
 class BaseAttackBonus(Bonus):
-    # TODO: Move this to attributes.py
+    # TODO: Move this to attributes.
     def __init__(self):
         super(BaseAttackBonus, self).__init__(source="Base Attack Bonus")
 
