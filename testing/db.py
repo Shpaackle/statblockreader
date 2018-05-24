@@ -14,6 +14,11 @@ def connect_to_database():
     return db
 
 
+def add_to_database(items, things):
+    for thing in things:
+        items.insert_one(thing)
+
+
 def main():
     db = connect_to_database
 
