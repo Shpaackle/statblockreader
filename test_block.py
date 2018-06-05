@@ -1,7 +1,11 @@
 import json
-import pprint
+# import pytest
+import logging
+from pprint import pprint
 
 from block_functions.character import Character
+
+LOG = logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 def main():
@@ -21,7 +25,9 @@ def main():
     assert character.speed.block == 20
     assert character.AC.ability is character.scores["DEX"]
 
-    pprint.pprint(character.bonuses)
+    # CLASSES
+
+    pprint(character.bonuses)
 
     print("Finished")
 

@@ -28,7 +28,7 @@ class Bonus:
         self.active = active
         self.conditions = []
 
-    def change_active_state(self):
+    def change_active(self):
         self.active = not self.active
 
     def __repr__(self):
@@ -43,17 +43,41 @@ class BaseAttackBonus(Bonus):
 
 class RacialBonus(Bonus):
     def __init__(self, source=None, **kwargs):
-        super(RacialBonus, self).__init__(bonus_type="Racial", source=source, **kwargs)
+        super(RacialBonus, self).__init__(bonus_type="Racial",
+                                          source=source,
+                                          **kwargs, )
 
 
 class DodgeBonus(Bonus):
     def __init__(self, source=None, **kwargs):
-        super(DodgeBonus, self).__init__(bonus_type="Dodge", source=source, stackable=True, **kwargs)
+        super(DodgeBonus, self).__init__(bonus_type="Dodge",
+                                         source=source,
+                                         stackable=True,
+                                         **kwargs, )
 
 
 class UntypedBonus(Bonus):
     def __init__(self, source=None, **kwargs):
-        super(UntypedBonus, self).__init__(bonus_type="Untyped", source=source, stackable=True, **kwargs)
+        super(UntypedBonus, self).__init__(bonus_type="Untyped",
+                                           source=source,
+                                           stackable=True,
+                                           **kwargs, )
+
+
+class CompetenceBonus(Bonus):
+    def __init__(self, source=None, **kwargs):
+        super(CompetenceBonus, self).__init__(bonus_type="Competence",
+                                              source=source,
+                                              stackable=False,
+                                              **kwargs, )
+
+
+class SacredBonus(Bonus):
+    def __init__(self, source=None, **kwargs):
+        super(SacredBonus, self).__init__(bonus_type="Sacred",
+                                          source=source,
+                                          stackable=False,
+                                          **kwargs, )
 
 
 class BONUSES(Enum):
@@ -61,6 +85,8 @@ class BONUSES(Enum):
     racial = RacialBonus
     dodge = DodgeBonus
     untyped = UntypedBonus
+    competence = CompetenceBonus
+    sacred = SacredBonus
     EMPTY = Bonus
 
     @staticmethod
