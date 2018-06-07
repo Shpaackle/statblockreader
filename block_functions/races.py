@@ -6,7 +6,7 @@ class Race:
     """
     Class to represent race of character
     """
-    def __init__(self, **kwargs,):
+    def __init__(self, **kwargs, ):
         self.name = ""
         self.size = None
         self.race_type = ""
@@ -22,7 +22,7 @@ class Race:
                 setattr(self, k, v)
 
 
-Bonus = namedtuple("Bonus", ("modifies", "amount", "active"))
+Bonus = namedtuple("Bonus", ("modifies", "amount", "active",))
 Trait = namedtuple("Trait", ("name", "type", "source", "bonus", "description",))
 
 
